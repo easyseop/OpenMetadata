@@ -5121,6 +5121,7 @@ export enum ConfigType {
     Tableau = "Tableau",
     Teradata = "Teradata",
     ThoughtSpot = "ThoughtSpot",
+    Tibero = "Tibero",
     Timescale = "Timescale",
     Trino = "Trino",
     UnityCatalog = "UnityCatalog",
