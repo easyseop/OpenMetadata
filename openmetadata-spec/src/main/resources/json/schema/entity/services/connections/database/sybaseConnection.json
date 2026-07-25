@@ -1,0 +1,90 @@
+{
+  "$id": "https://open-metadata.org/schema/entity/services/connections/database/sybaseConnection.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SybaseConnection",
+  "description": "Sybase Database Service connection.",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.services.connections.database.SybaseConnection",
+  "definitions": {
+    "sybaseType": {
+      "title": "Service Type",
+      "description": "Sybase database service type",
+      "type": "string",
+      "enum": ["Sybase"],
+      "default": "Sybase"
+    },
+    "sybaseScheme": {
+      "description": "SQLAlchemy driver scheme options.",
+      "type": "string",
+      "enum": ["sybase+pyodbc"],
+      "default": "sybase+pyodbc"
+    }
+  },
+  "properties": {
+    "type": {
+      "title": "Service Type",
+      "description": "Sybase database service type",
+      "$ref": "#/definitions/sybaseType",
+      "default": "Sybase"
+    },
+    "scheme": {
+      "title": "Connection Scheme",
+      "description": "SQLAlchemy driver scheme options.",
+      "$ref": "#/definitions/sybaseScheme",
+      "default": "sybase+pyodbc"
+    },
+    "username": {
+      "title": "Username",
+      "description": "Username to connect to Sybase. This user should have privileges to read all the metadata in Sybase.",
+      "type": "string"
+    },
+    "password": {
+      "title": "Password",
+      "description": "Password to connect to Sybase.",
+      "type": "string",
+      "format": "password"
+    },
+    "hostPort": {
+      "title": "Host and Port",
+      "description": "Host and port of the Sybase service.",
+      "type": "string"
+    },
+    "database": {
+      "title": "Database",
+      "description": "Database of the data source.",
+      "type": "string"
+    },
+    "sourcePythonClass": {
+      "title": "Source Python Class Name",
+      "description": "Source Python Class Name to be instantiated by the ingestion workflow",
+      "type": "string"
+    },
+    "connectionOptions": {
+      "title": "Connection Options",
+      "$ref": "../connectionBasicType.json#/definitions/connectionOptions"
+    },
+    "schemaFilterPattern": {
+      "title": "Default Schema Filter Pattern",
+      "description": "Regex to only include/exclude schemas that match the pattern.",
+      "$ref": "../../../../type/filterPattern.json#/definitions/filterPattern"
+    },
+    "tableFilterPattern": {
+      "title": "Default Table Filter Pattern",
+      "description": "Regex to only include/exclude tables that match the pattern.",
+      "$ref": "../../../../type/filterPattern.json#/definitions/filterPattern"
+    },
+    "databaseFilterPattern": {
+      "title": "Default Database Filter Pattern",
+      "description": "Regex to only include/exclude databases that match the pattern.",
+      "$ref": "../../../../type/filterPattern.json#/definitions/filterPattern"
+    },
+    "supportsMetadataExtraction": {
+      "title": "Supports Metadata Extraction",
+      "$ref": "../connectionBasicType.json#/definitions/supportsMetadataExtraction"
+    }
+  },
+  "additionalProperties": true,
+  "required": [
+    "type"
+  ]
+}

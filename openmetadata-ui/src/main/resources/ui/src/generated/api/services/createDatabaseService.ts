@@ -126,6 +126,8 @@ export interface DatabaseConnection {
  * Custom Database Service connection to build a source that is not supported by
  * OpenMetadata yet.
  *
+ * Sybase Database Service connection.
+ *
  * Sap Hana Database Connection Config
  *
  * MongoDB Connection Config
@@ -242,6 +244,8 @@ export interface Connection {
      *
      * Host and port of the PinotDB Broker service.
      *
+     * Host and port of the Sybase service.
+     *
      * Host and port of the MongoDB service when using the `mongodb` connection scheme. Only
      * host when using the `mongodb+srv` scheme.
      *
@@ -342,6 +346,8 @@ export interface Connection {
      * Service Type
      *
      * Custom database service type
+     *
+     * Sybase database service type
      */
     type?: ConfigType;
     /**
@@ -479,6 +485,8 @@ export interface Connection {
      *
      * password to connect to the PinotDB.
      *
+     * Password to connect to Sybase.
+     *
      * Password to connect to MongoDB.
      *
      * Password to connect to Couchbase.
@@ -572,6 +580,9 @@ export interface Connection {
      *
      * username to connect to the PinotDB. This user should have privileges to read all the
      * metadata in PinotDB.
+     *
+     * Username to connect to Sybase. This user should have privileges to read all the metadata
+     * in Sybase.
      *
      * Username to connect to MongoDB. This user should have privileges to read all the metadata
      * in MongoDB.
@@ -2264,6 +2275,7 @@ export enum ConfigScheme {
     RedshiftPsycopg2 = "redshift+psycopg2",
     Snowflake = "snowflake",
     SqlitePysqlite = "sqlite+pysqlite",
+    SybasePyodbc = "sybase+pyodbc",
     Teradatasql = "teradatasql",
     Trino = "trino",
     VerticaVerticaPython = "vertica+vertica_python",
@@ -2295,6 +2307,8 @@ export enum TransactionMode {
  * service type
  *
  * Custom database service type
+ *
+ * Sybase database service type
  */
 export enum ConfigType {
     Athena = "Athena",
@@ -2347,6 +2361,7 @@ export enum ConfigType {
     Snowflake = "Snowflake",
     Ssas = "SSAS",
     StarRocks = "StarRocks",
+    Sybase = "Sybase",
     Synapse = "Synapse",
     Teradata = "Teradata",
     Timescale = "Timescale",
@@ -2481,6 +2496,7 @@ export enum DatabaseServiceType {
     Snowflake = "Snowflake",
     Ssas = "SSAS",
     StarRocks = "StarRocks",
+    Sybase = "Sybase",
     Synapse = "Synapse",
     Teradata = "Teradata",
     Timescale = "Timescale",

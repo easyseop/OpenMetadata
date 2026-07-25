@@ -88,6 +88,7 @@ export const getIngestionName = (
 export const shouldTestConnection = (serviceType: string) => {
   return (
     serviceType !== DatabaseServiceType.CustomDatabase &&
+    serviceType !== DatabaseServiceType.Sybase &&
     serviceType !== MessagingServiceType.CustomMessaging &&
     serviceType !== DashboardServiceType.CustomDashboard &&
     serviceType !== MlModelServiceType.CustomMlModel &&
