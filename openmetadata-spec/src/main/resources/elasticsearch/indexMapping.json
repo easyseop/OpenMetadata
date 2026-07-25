@@ -296,6 +296,17 @@
     ],
     "childAliases": []
   },
+  "instanceCode": {
+    "indexName": "instance_code_search_index",
+    "indexMappingFile": "/elasticsearch/%s/instance_code_index_mapping.json",
+    "alias": "instanceCode",
+    "parentAliases": [
+      "all",
+      "dataAsset",
+      "dataAssetEmbeddings"
+    ],
+    "childAliases": []
+  },
   "glossary": {
     "indexName": "glossary_search_index",
     "indexMappingFile": "/elasticsearch/%s/glossary_index_mapping.json",

@@ -2371,7 +2371,14 @@
         "your-entity": "Ваш объект «{{entity}}»",
         "z-to-a": "Я до А",
         "zoom-in": "Увеличить",
-        "zoom-out": "Уменьшить"
+        "zoom-out": "Уменьшить",
+        "code-group": "Code Group",
+        "code-name": "Code Name",
+        "code-value": "Code Value",
+        "instance-code": "Instance Code",
+        "instance-code-lowercase-plural": "instance codes",
+        "instance-code-plural": "Instance Codes",
+        "sort-order": "Sort Order"
     },
     "message": {
         "access-block-time-message": "Доступ заблокируется после ряда неудачных попыток (на несколько секунд).",
@@ -3342,7 +3349,9 @@
         "write-your-announcement-lowercase": "Напишите объявление",
         "write-your-description": "Добавьте описание",
         "write-your-text": "Напишите {{text}}",
-        "you-can-also-set-up-the-metadata-ingestion": "Вы также можете настроить прием метаданных."
+        "you-can-also-set-up-the-metadata-ingestion": "Вы также можете настроить прием метаданных.",
+        "instance-code-description": "Manage common/reference codes used as shared master data across the platform.",
+        "instance-code-group-description": "The {{codeGroupName}} code group contains {{count}} registered code(s)."
     },
     "server": {
         "account-verify-success": "Электронная почта подтверждена",

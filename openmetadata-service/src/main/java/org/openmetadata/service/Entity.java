@@ -203,6 +203,7 @@ public final class Entity {
   public static final String FILE = "file";
   public static final String SPREADSHEET = "spreadsheet";
   public static final String WORKSHEET = "worksheet";
+  public static final String INSTANCE_CODE = "instanceCode";
 
   public static final String GLOSSARY = "glossary";
   public static final String GLOSSARY_TERM = "glossaryTerm";

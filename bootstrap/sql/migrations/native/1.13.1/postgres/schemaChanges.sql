@@ -38,3 +38,16 @@ CREATE TABLE IF NOT EXISTS intake_form_entity (
 CREATE INDEX IF NOT EXISTS api_collection_entity_name_index ON api_collection_entity (name);
 CREATE INDEX IF NOT EXISTS api_endpoint_entity_name_index ON api_endpoint_entity (name);
 CREATE INDEX IF NOT EXISTS api_service_entity_name_index ON api_service_entity (name);
+-- InstanceCode entity table: common/reference code master data (codeGroup/codeValue)
+CREATE TABLE IF NOT EXISTS instance_code_entity (
+    id VARCHAR(36) GENERATED ALWAYS AS (json ->> 'id') STORED NOT NULL,
+    name VARCHAR(256) GENERATED ALWAYS AS (json ->> 'name') STORED NOT NULL,
+    fqnHash VARCHAR(768) NOT NULL,
+    json JSONB NOT NULL,
+    updatedAt BIGINT GENERATED ALWAYS AS ((json ->> 'updatedAt')::bigint) STORED NOT NULL,
+    updatedBy VARCHAR(256) GENERATED ALWAYS AS (json ->> 'updatedBy') STORED NOT NULL,
+    deleted BOOLEAN GENERATED ALWAYS AS ((json ->> 'deleted')::boolean) STORED,
+    PRIMARY KEY (id),
+    UNIQUE (fqnHash)
+);
+CREATE INDEX IF NOT EXISTS instance_code_entity_name_index ON instance_code_entity (name);

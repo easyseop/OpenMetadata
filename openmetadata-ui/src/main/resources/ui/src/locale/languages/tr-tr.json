@@ -2371,7 +2371,14 @@
         "your-entity": "Sizin {{entity}}",
         "z-to-a": "Z'den A'ya",
         "zoom-in": "Yakınlaştır",
-        "zoom-out": "Uzaklaştır"
+        "zoom-out": "Uzaklaştır",
+        "code-group": "Code Group",
+        "code-name": "Code Name",
+        "code-value": "Code Value",
+        "instance-code": "Instance Code",
+        "instance-code-lowercase-plural": "instance codes",
+        "instance-code-plural": "Instance Codes",
+        "sort-order": "Sort Order"
     },
     "message": {
         "access-block-time-message": "Erişim, maksimum başarısız giriş denemesinden sonra milisaniye boyunca engellenecektir.",
@@ -3341,7 +3348,9 @@
         "write-your-announcement-lowercase": "duyurunuzu yazın",
         "write-your-description": "Açıklamanızı yazın",
         "write-your-text": "{{text}} yazın",
-        "you-can-also-set-up-the-metadata-ingestion": "Metadata alımını da ayarlayabilirsiniz."
+        "you-can-also-set-up-the-metadata-ingestion": "Metadata alımını da ayarlayabilirsiniz.",
+        "instance-code-description": "Manage common/reference codes used as shared master data across the platform.",
+        "instance-code-group-description": "The {{codeGroupName}} code group contains {{count}} registered code(s)."
     },
     "server": {
         "account-verify-success": "E-posta başarıyla doğrulandı",

@@ -303,6 +303,17 @@ const AddMetricPage = withSuspenseFallback(
   )
 );
 
+const InstanceCodeListPage = withSuspenseFallback(
+  React.lazy(() => import('../../components/InstanceCode/InstanceCodeListPage'))
+);
+const InstanceCodeGroupDetailsPage = withSuspenseFallback(
+  React.lazy(
+    () =>
+      import(
+        '../../pages/InstanceCodeGroupDetailsPage/InstanceCodeGroupDetailsPage'
+      )
+  )
+);
 const ColumnBulkOperationsPage = withSuspenseFallback(
   React.lazy(
     () =>
@@ -775,6 +786,9 @@ const AuthenticatedAppRouter: FunctionComponent = () => {
         path={ROUTES.DATA_PRODUCT}
       />
       <Route element={<MetricListPage />} path={ROUTES.METRICS} />
+      <Route element={<InstanceCodeListPage />} path={ROUTES.INSTANCE_CODES} />
+        element={<InstanceCodeGroupDetailsPage />}
+        path={ROUTES.INSTANCE_CODE_GROUP}
       <Route
         element={
           <AddMetricPage

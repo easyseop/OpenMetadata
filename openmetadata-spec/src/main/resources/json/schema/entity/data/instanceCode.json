@@ -1,0 +1,134 @@
+{
+  "$id": "https://open-metadata.org/schema/entity/data/instanceCode.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "InstanceCode",
+  "$comment": "@om-entity-type",
+  "description": "This schema defines the InstanceCode entity. An InstanceCode is a common/reference code entry, identified by a code group and code value, used as shared master data across the platform.",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.entity.data.InstanceCode",
+  "javaInterfaces": ["org.openmetadata.schema.EntityInterface"],
+  "properties": {
+    "id": {
+      "description": "Unique identifier that identifies this InstanceCode instance.",
+      "$ref": "../../type/basic.json#/definitions/uuid"
+    },
+    "name": {
+      "description": "Name that identifies this InstanceCode instance uniquely.",
+      "$ref": "../../type/basic.json#/definitions/entityName"
+    },
+    "fullyQualifiedName": {
+      "description": "A unique name that identifies an InstanceCode.",
+      "$ref": "../../type/basic.json#/definitions/fullyQualifiedEntityName"
+    },
+    "displayName": {
+      "description": "Display Name that identifies this InstanceCode.",
+      "type": "string"
+    },
+    "description": {
+      "description": "Description of this InstanceCode instance.",
+      "$ref": "../../type/basic.json#/definitions/markdown"
+    },
+    "codeGroup": {
+      "description": "Group/category this code belongs to (e.g. 'COUNTRY', 'STATUS').",
+      "type": "string",
+      "minLength": 1
+    },
+    "codeGroupName": {
+      "description": "Human readable label for the code group (e.g. '가감구분코드').",
+      "type": "string"
+    },
+    "codeValue": {
+      "description": "The code value within the code group (e.g. 'KR', 'ACTIVE').",
+      "type": "string",
+      "minLength": 1
+    },
+    "codeName": {
+      "description": "Human readable label for this code value.",
+      "type": "string"
+    },
+    "sortOrder": {
+      "description": "Display sort order of this code within its code group.",
+      "type": "integer"
+    },
+    "registeredDate": {
+      "description": "Registration date of this code (e.g. '20100201').",
+      "type": "string"
+    },
+    "active": {
+      "description": "Whether this code is currently active/usable.",
+      "type": "boolean",
+      "default": true
+    },
+    "version": {
+      "description": "Metadata version of the entity.",
+      "$ref": "../../type/entityHistory.json#/definitions/entityVersion"
+    },
+    "updatedAt": {
+      "description": "Last update time corresponding to the new version of the entity in Unix epoch time milliseconds.",
+      "$ref": "../../type/basic.json#/definitions/timestamp"
+    },
+    "updatedBy": {
+      "description": "User who made the update.",
+      "type": "string"
+    },
+    "impersonatedBy": {
+      "description": "Bot user that performed the action on behalf of the actual user.",
+      "$ref": "../../type/basic.json#/definitions/impersonatedBy"
+    },
+    "href": {
+      "description": "Link to the resource corresponding to this InstanceCode.",
+      "$ref": "../../type/basic.json#/definitions/href"
+    },
+    "owners": {
+      "description": "Owners of this InstanceCode.",
+      "$ref": "../../type/entityReferenceList.json"
+    },
+    "followers": {
+      "description": "Followers of this entity.",
+      "$ref": "../../type/entityReferenceList.json"
+    },
+    "tags": {
+      "description": "Tags associated with this InstanceCode.",
+      "type": "array",
+      "items": {
+        "$ref": "../../type/tagLabel.json"
+      },
+      "default": null
+    },
+    "changeDescription": {
+      "description": "Change that lead to this version of the entity.",
+      "$ref": "../../type/entityHistory.json#/definitions/changeDescription"
+    },
+    "incrementalChangeDescription": {
+      "description": "Change that lead to this version of the entity.",
+      "$ref": "../../type/entityHistory.json#/definitions/changeDescription"
+    },
+    "deleted": {
+      "description": "When `true` indicates the entity has been soft deleted.",
+      "type": "boolean",
+      "default": false
+    },
+    "domains": {
+      "description": "Domains the InstanceCode belongs to.",
+      "$ref": "../../type/entityReferenceList.json"
+    },
+    "dataProducts": {
+      "description": "List of data products this entity is part of.",
+      "$ref": "../../type/entityReferenceList.json"
+    },
+    "extension": {
+      "description": "Entity extension data with custom attributes added to the entity.",
+      "$ref": "../../type/basic.json#/definitions/entityExtension"
+    },
+    "votes": {
+      "description": "Votes on the entity.",
+      "$ref": "../../type/votes.json"
+    },
+    "entityStatus": {
+      "description": "Status of the InstanceCode.",
+      "$ref": "../../type/status.json"
+    }
+  },
+  "required": ["id", "name", "codeGroup", "codeValue"],
+  "additionalProperties": false
+}
