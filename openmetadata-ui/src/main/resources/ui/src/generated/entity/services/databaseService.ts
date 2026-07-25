@@ -305,6 +305,8 @@ export interface DatabaseConnection {
  * IOMETE Connection Config
  *
  * QuestDB Connection Config
+ *
+ * Tibero Database Connection Config
  */
 export interface Connection {
     /**
@@ -326,6 +328,8 @@ export interface Connection {
     credentials?: GCPCredentials;
     /**
      * Regex to only include/exclude databases that matches the pattern.
+     *
+     * Regex to only include/exclude databases that match the pattern.
      *
      * Regex to only include/exclude namespaces (sources/spaces) that match the pattern. In
      * Dremio Cloud, namespaces are mapped as databases.
@@ -405,6 +409,8 @@ export interface Connection {
      * Host and port of the IOMETE service, e.g. dev.iomete.cloud:443
      *
      * Host and port of the QuestDB service (default PostgreSQL wire protocol port is 8812).
+     *
+     * Host and port of the Tibero service.
      */
     hostPort?: string;
     /**
@@ -414,6 +420,8 @@ export interface Connection {
     sampleDataStorageConfig?: SampleDataStorageConfig;
     /**
      * Regex to only include/exclude schemas that matches the pattern.
+     *
+     * Regex to only include/exclude schemas that match the pattern.
      *
      * Regex to only include/exclude schemas that matches the pattern. System schemas
      * (information_schema, _statistics_, sys) are excluded by default.
@@ -458,9 +466,9 @@ export interface Connection {
     /**
      * Regex to only include/exclude tables that matches the pattern.
      *
-     * Regex to include/exclude FHIR resource types
-     *
      * Regex to only include/exclude tables that match the pattern.
+     *
+     * Regex to include/exclude FHIR resource types
      *
      * Regex to only include/exclude dictionaries (tables) that matches the pattern.
      */
@@ -643,6 +651,8 @@ export interface Connection {
      * Password to connect to Informix.
      *
      * Password to connect to IOMETE.
+     *
+     * Password to connect to Tibero.
      */
     password?: string;
     /**
@@ -761,6 +771,9 @@ export interface Connection {
      * Username to connect to IOMETE.
      *
      * Username to connect to QuestDB.
+     *
+     * Username to connect to Tibero. This user should have privileges to read all the metadata
+     * in Tibero.
      */
     username?: string;
     /**
@@ -1165,6 +1178,8 @@ export interface Connection {
     secretToken?: string;
     /**
      * Source Python Class Name to instantiated by the ingestion workflow
+     *
+     * Source Python Class Name to be instantiated by the ingestion workflow
      */
     sourcePythonClass?: string;
     /**
@@ -1986,6 +2001,12 @@ export interface AccessDatabaseLocationLocalPathOrS3 {
  *
  * Regex to only fetch containers that matches the pattern.
  *
+ * Regex to only include/exclude databases that match the pattern.
+ *
+ * Regex to only include/exclude schemas that match the pattern.
+ *
+ * Regex to only include/exclude tables that match the pattern.
+ *
  * Regex to only include/exclude schemas that matches the pattern. System schemas
  * (information_schema, _statistics_, sys) are excluded by default.
  *
@@ -1998,8 +2019,6 @@ export interface AccessDatabaseLocationLocalPathOrS3 {
  *
  * Regex to only include/exclude folders that match the pattern. In Dremio Cloud, folders
  * are mapped as schemas.
- *
- * Regex to only include/exclude tables that match the pattern.
  *
  * Regex to only include/exclude dictionaries (tables) that matches the pattern.
  *
@@ -2408,6 +2427,7 @@ export enum ConfigScheme {
     SqlitePysqlite = "sqlite+pysqlite",
     SybasePyodbc = "sybase+pyodbc",
     Teradatasql = "teradatasql",
+    TiberoPyodbc = "tibero+pyodbc",
     Trino = "trino",
     VerticaVerticaPython = "vertica+vertica_python",
 }
@@ -2495,6 +2515,7 @@ export enum ConfigType {
     Sybase = "Sybase",
     Synapse = "Synapse",
     Teradata = "Teradata",
+    Tibero = "Tibero",
     Timescale = "Timescale",
     Trino = "Trino",
     UnityCatalog = "UnityCatalog",
@@ -2647,6 +2668,7 @@ export enum DatabaseServiceType {
     Sybase = "Sybase",
     Synapse = "Synapse",
     Teradata = "Teradata",
+    Tibero = "Tibero",
     Timescale = "Timescale",
     Trino = "Trino",
     UnityCatalog = "UnityCatalog",
