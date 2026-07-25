@@ -2388,7 +2388,11 @@
         "query-report": "보고서 프로젝트",
         "query-report-lowercase-plural": "보고서 프로젝트",
         "query-report-plural": "보고서 프로젝트",
-        "variable-name": "Variable Name"
+        "variable-name": "Variable Name",
+        "data-assertion-plural": "Data Assertions",
+        "my-failed-assertion-plural": "검증 실패 항목",
+        "pass-rate": "Pass Rate",
+        "re-validate-data": "Re-validate Data"
     },
     "message": {
         "access-block-time-message": "최대 로그인 실패 시도 횟수 이후 밀리초 동안 접근이 차단됩니다.",
@@ -3362,7 +3366,8 @@
         "you-can-also-set-up-the-metadata-ingestion": "메타데이터 수집을 설정할 수도 있습니다.",
         "instance-code-description": "Manage common/reference codes used as shared master data across the platform.",
         "instance-code-group-description": "The {{codeGroupName}} code group contains {{count}} registered code(s).",
-        "query-report-description": "Manage report metadata and view the SQL queries associated with each report."
+        "query-report-description": "Manage report metadata and view the SQL queries associated with each report.",
+        "data-assertions-revalidate-placeholder": "Re-validation will be available soon."
     },
     "server": {
         "account-verify-success": "이메일이 성공적으로 인증되었습니다",
