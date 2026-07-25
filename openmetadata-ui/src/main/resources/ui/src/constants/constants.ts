@@ -314,6 +314,9 @@ export const ROUTES = {
   // InstanceCode Entity
   INSTANCE_CODES: '/instanceCodes',
   INSTANCE_CODE_GROUP: `/instanceCodes/group/${PLACEHOLDER_ROUTE_FQN}`,
+  // QueryReport Entity
+  QUERY_REPORTS: '/queryReports',
+  QUERY_REPORT_YEAR: `/queryReports/year/${PLACEHOLDER_ROUTE_FQN}`,
   // Entity Import
   ENTITY_IMPORT: `/bulk/import/${PLACEHOLDER_ROUTE_ENTITY_TYPE}/${PLACEHOLDER_ROUTE_FQN}`,
 

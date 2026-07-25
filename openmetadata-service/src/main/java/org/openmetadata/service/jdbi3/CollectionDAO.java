@@ -113,6 +113,7 @@ import org.openmetadata.schema.entity.data.Metric;
 import org.openmetadata.schema.entity.data.MlModel;
 import org.openmetadata.schema.entity.data.Pipeline;
 import org.openmetadata.schema.entity.data.Query;
+import org.openmetadata.schema.entity.data.QueryReport;
 import org.openmetadata.schema.entity.data.Report;
 import org.openmetadata.schema.entity.data.SearchIndex;
 import org.openmetadata.schema.entity.data.Spreadsheet;
@@ -271,8 +272,12 @@ public interface CollectionDAO {
 
   @CreateSqlObject
   MetricDAO metricDAO();
+
   @CreateSqlObject
   InstanceCodeDAO instanceCodeDAO();
+
+  @CreateSqlObject
+  QueryReportDAO queryReportDAO();
 
   @CreateSqlObject
   ChartDAO chartDAO();
@@ -4300,14 +4305,39 @@ public interface CollectionDAO {
                 + "ORDER BY customUnitOfMeasurement",
         connectionType = POSTGRES)
     List<String> getDistinctCustomUnitsOfMeasurement();
+  }
+
   interface InstanceCodeDAO extends EntityDAO<InstanceCode> {
     @Override
     default String getTableName() {
       return "instance_code_entity";
     }
+
     @Override
     default Class<InstanceCode> getEntityClass() {
       return InstanceCode.class;
+    }
+
+    @Override
+    default String getNameHashColumn() {
+      return "fqnHash";
+    }
+  }
+
+  interface QueryReportDAO extends EntityDAO<QueryReport> {
+    @Override
+    default String getTableName() {
+      return "query_report_entity";
+    }
+
+    @Override
+    default Class<QueryReport> getEntityClass() {
+      return QueryReport.class;
+    }
+
+    @Override
+    default String getNameHashColumn() {
+      return "fqnHash";
     }
   }
 

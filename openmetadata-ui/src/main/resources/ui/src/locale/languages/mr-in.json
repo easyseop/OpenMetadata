@@ -2378,7 +2378,17 @@
         "instance-code": "Instance Code",
         "instance-code-lowercase-plural": "instance codes",
         "instance-code-plural": "Instance Codes",
-        "sort-order": "Sort Order"
+        "sort-order": "Sort Order",
+        "business-rule": "Business Rule",
+        "encryption-transform-info": "Encryption Transform Info",
+        "info-type": "Info Type",
+        "is-encrypted": "Is Encrypted",
+        "message": "Message",
+        "other": "Other",
+        "query-report": "Query Report",
+        "query-report-lowercase-plural": "query reports",
+        "query-report-plural": "Query Reports",
+        "variable-name": "Variable Name"
     },
     "message": {
         "access-block-time-message": "कमाल अयशस्वी लॉगिन प्रयत्नांनंतर प्रवेश काही काळासाठी अवरोधित केला जाईल.",
@@ -3350,7 +3360,8 @@
         "write-your-text": "तुमचा {{text}} लिहा",
         "you-can-also-set-up-the-metadata-ingestion": "तुम्ही मेटाडेटा अंतर्ग्रहण देखील सेट करू शकता.",
         "instance-code-description": "Manage common/reference codes used as shared master data across the platform.",
-        "instance-code-group-description": "The {{codeGroupName}} code group contains {{count}} registered code(s)."
+        "instance-code-group-description": "The {{codeGroupName}} code group contains {{count}} registered code(s).",
+        "query-report-description": "Manage report metadata and view the SQL queries associated with each report."
     },
     "server": {
         "account-verify-success": "ईमेल यशस्वीरित्या सत्यापित केले",

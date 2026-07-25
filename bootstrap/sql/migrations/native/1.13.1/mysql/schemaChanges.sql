@@ -43,6 +43,7 @@ CREATE INDEX domain_entity_name_index ON domain_entity (name);
 CREATE INDEX search_index_entity_name_index ON search_index_entity (name);
 CREATE INDEX search_service_entity_name_index ON search_service_entity (name);
 CREATE INDEX stored_procedure_entity_name_index ON stored_procedure_entity (name);
+
 -- InstanceCode entity table: common/reference code master data (codeGroup/codeValue)
 CREATE TABLE IF NOT EXISTS instance_code_entity (
     id VARCHAR(36) GENERATED ALWAYS AS (json_unquote(json_extract(json, '$.id'))) STORED NOT NULL,
@@ -56,3 +57,17 @@ CREATE TABLE IF NOT EXISTS instance_code_entity (
     UNIQUE KEY instance_code_entity_fqn_hash (fqnHash)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 CREATE INDEX instance_code_entity_name_index ON instance_code_entity (name);
+
+-- QueryReport entity table: report metadata linked to Query entities via queryUsedIn
+CREATE TABLE IF NOT EXISTS query_report_entity (
+    id VARCHAR(36) GENERATED ALWAYS AS (json_unquote(json_extract(json, '$.id'))) STORED NOT NULL,
+    name VARCHAR(256) GENERATED ALWAYS AS (json_unquote(json_extract(json, '$.name'))) VIRTUAL NOT NULL,
+    fqnHash VARCHAR(768) NOT NULL COLLATE ascii_bin,
+    json JSON NOT NULL,
+    updatedAt BIGINT UNSIGNED GENERATED ALWAYS AS (json_unquote(json_extract(json, '$.updatedAt'))) VIRTUAL NOT NULL,
+    updatedBy VARCHAR(256) GENERATED ALWAYS AS (json_unquote(json_extract(json, '$.updatedBy'))) VIRTUAL NOT NULL,
+    deleted TINYINT(1) GENERATED ALWAYS AS (json_extract(json, '$.deleted')) VIRTUAL,
+    PRIMARY KEY (id),
+    UNIQUE KEY query_report_entity_fqn_hash (fqnHash)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE INDEX query_report_entity_name_index ON query_report_entity (name);
