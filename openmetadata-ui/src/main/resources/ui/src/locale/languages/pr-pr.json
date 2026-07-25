@@ -2392,7 +2392,16 @@
         "data-assertion-plural": "Data Assertions",
         "my-failed-assertion-plural": "My Failed Assertions",
         "pass-rate": "Pass Rate",
-        "re-validate-data": "Re-validate Data"
+        "re-validate-data": "Re-validate Data",
+        "attribute-name": "Attribute Name",
+        "business-instance-code": "Business Instance Code",
+        "business-instance-content": "Business Instance Content",
+        "copy-all": "Copy All",
+        "copy-table": "Copy Table",
+        "instance-name": "Instance Name",
+        "last-modified-date": "Last Modified Date",
+        "registered-date": "Registered Date",
+        "unknown": "Unknown"
     },
     "message": {
         "access-block-time-message": "دسترسی برای مدت میلی‌ثانیه‌ها بعد از حداکثر تلاش‌های ناموفق ورود، مسدود خواهد شد.",
@@ -2588,7 +2597,6 @@
         "default-persona-update-error": "ਡਿਫਾਲਟ ਸ਼ਖਸੀਅਤ ਨੂੰ ਅਪਡੇਟ ਕਰਨ ਵਿੱਚ ਅਸਫਲ. ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ.",
         "define-custom-property-for-column": "جدول‌ها و مدل‌های دیتابورد ستون لوله‌ای سفارشی ویژگی‌ها را تعریف کنید.",
         "define-custom-property-for-entity": "ویژگی‌های سفارشی را برای {{entity}} خود تعریف کنید تا نیازهای سازمانی شما را برآورده کند.",
-        "define-when-the-workflow-should-run": "زمان اجرای گردش کار را تعیین کنید",
         "delete-action-description": "حذف این {{entityType}} به طور دائمی متادیتای آن را از {{brandName}} حذف خواهد کرد.",
         "delete-asset-from-entity-type": "حذف این {{entityType}} از موجودیت.",
         "delete-data-asset-rule-confirmation": "Are you sure you want to delete the data asset rule '{{name}}'?",
@@ -2624,7 +2632,6 @@
         "drag-drop-odcs-file": "برای آپلود فایل ODCS کلیک کنید یا آن را بکشید",
         "drag-drop-openmetadata-file": "برای آپلود فایل قرارداد {{brandName}} کلیک کنید یا آن را بکشید",
         "drag-to-adjust-position": "برای تنظیم موقعیت به بالا یا پایین بکشید",
-        "dry-run-side-effects-warning": "برخی تغییرات اثرات جانبی خواهند داشت. قبل از ادامه، تأثیر زیر را بررسی کنید.",
         "duration-in-iso-format": "مدت زمان در قالب ISO 8601 'PnYnMnDTnHnMnS'.",
         "edit-dimension-description": "پیکربندی بُعد را برای بهبود تجزیه و تحلیل کیفیت داده‌های خود تغییر دهید",
         "edit-entity-style-description": "آیکون و رنگ نشان برای {{entity}} را تغییر دهید.",

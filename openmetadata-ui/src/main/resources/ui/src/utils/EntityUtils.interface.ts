@@ -78,6 +78,7 @@ export enum FormattedDatabaseServiceType {
   Cockroach = 'Cockroach',
   Couchbase = 'Couchbase',
   CustomDatabase = 'Custom Database',
+  Sybase = 'Sybase',
   Databricks = 'Databricks',
   Datalake = 'Datalake',
   Db2 = 'Db2',

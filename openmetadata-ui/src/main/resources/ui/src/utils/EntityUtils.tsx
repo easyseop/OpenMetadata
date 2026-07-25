@@ -87,6 +87,7 @@ import { TagLabel } from '../generated/type/tagLabel';
 import { Votes } from '../generated/type/votes';
 import { DataInsightTabs } from '../interface/data-insight.interface';
 import {
+  InstanceCodeSearchSource,
   SearchSourceAlias,
   TableColumnSearchSource,
 } from '../interface/search.interface';
@@ -100,6 +101,10 @@ import EntityLink from './EntityLink';
 import Fqn from './Fqn';
 import i18n from './i18next/LocalUtil';
 import {
+  getQueryReportYear,
+  getQueryReportYearLabel,
+} from './QueryReportUtils';
+import {
   getApplicationDetailsPath,
   getBotsPagePath,
   getBotsPath,
@@ -111,11 +116,13 @@ import {
   getEntityDetailsPath,
   getGlossaryPath,
   getGlossaryTermDetailsPath,
+  getInstanceCodeGroupPath,
   getKpiPath,
   getNotificationAlertDetailsPath,
   getObservabilityAlertDetailsPath,
   getPersonaDetailsPath,
   getPolicyWithFqnPath,
+  getQueryReportYearPath,
   getRoleWithFqnPath,
   getServiceDetailsPath,
   getSettingPath,
@@ -545,6 +552,12 @@ export const getEntityLinkFromType = (
       return getPersonaDetailsPath(fullyQualifiedName);
     case EntityType.KPI:
       return getKpiPath(fullyQualifiedName);
+    case EntityType.INSTANCE_CODE:
+      return getInstanceCodeGroupPath(
+        (entity as InstanceCodeSearchSource)?.codeGroup ?? ''
+      );
+    case EntityType.QUERY_REPORT:
+      return getEntityDetailsPath(entityType, fullyQualifiedName);
     default:
       return '';
   }
@@ -1352,6 +1365,39 @@ export const getEntityBreadcrumbs = (
       ];
     }
 
+    case EntityType.INSTANCE_CODE: {
+      const instanceCode = entity as InstanceCodeSearchSource;
+
+      return [
+        {
+          name: entity.name,
+          url: getInstanceCodeGroupPath(instanceCode.codeGroup ?? ''),
+        },
+      ];
+    }
+
+    case EntityType.QUERY_REPORT: {
+      const year = getQueryReportYear(entity.name);
+
+      return [
+        {
+          name: getQueryReportYearLabel(year),
+          url: getQueryReportYearPath(year),
+        },
+        ...(includeCurrent
+          ? [
+              {
+                name: entity.name,
+                url: getEntityDetailsPath(
+                  EntityType.QUERY_REPORT,
+                  entity.fullyQualifiedName ?? ''
+                ),
+              },
+            ]
+          : []),
+      ];
+    }
+
     case EntityType.TOPIC:
     case EntityType.DASHBOARD:
     case EntityType.PIPELINE:
@@ -1668,6 +1714,8 @@ export const EntityTypeName: Record<EntityType, string> = {
     entity: t('label.drive'),
   }),
   [EntityType.METRIC]: t('label.metric'),
+  [EntityType.INSTANCE_CODE]: t('label.instance-code'),
+  [EntityType.QUERY_REPORT]: t('label.query-report'),
   [EntityType.CONTAINER]: t('label.container'),
   [EntityType.DASHBOARD_DATA_MODEL]: t('label.dashboard-data-model'),
   [EntityType.TABLE]: t('label.table'),

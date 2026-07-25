@@ -39,9 +39,11 @@ import DataModelsPage from '../pages/DataModelPage/DataModelPage.component';
 import DirectoryDetailsPage from '../pages/DirectoryDetailsPage/DirectoryDetailsPage';
 import { VersionData } from '../pages/EntityVersionPage/EntityVersionPage.component';
 import FileDetailsPage from '../pages/FileDetailsPage/FileDetailsPage';
+import InstanceCodeDetailsPage from '../pages/InstanceCodeDetailsPage/InstanceCodeDetailsPage';
 import MetricDetailsPage from '../pages/MetricsPage/MetricDetailsPage/MetricDetailsPage';
 import MlModelPage from '../pages/MlModelPage/MlModelPage.component';
 import PipelineDetailsPage from '../pages/PipelineDetails/PipelineDetailsPage.component';
+import QueryReportDetailsPage from '../pages/QueryReportDetailsPage/QueryReportDetailsPage';
 import SearchIndexDetailsPage from '../pages/SearchIndexDetailsPage/SearchIndexDetailsPage';
 import SpreadsheetDetailsPage from '../pages/SpreadsheetDetailsPage/SpreadsheetDetailsPage';
 import StoredProcedurePage from '../pages/StoredProcedure/StoredProcedurePage';
@@ -62,11 +64,13 @@ import { patchDataProduct } from '../rest/dataProductAPI';
 import { patchDomains } from '../rest/domainAPI';
 import { patchDriveAssetDetails } from '../rest/driveAPI';
 import { patchGlossaries, patchGlossaryTerm } from '../rest/glossaryAPI';
+import { patchInstanceCode } from '../rest/instanceCodeAPI';
 import { patchKPI } from '../rest/KpiAPI';
 import { patchMetric } from '../rest/metricsAPI';
 import { patchMlModelDetails } from '../rest/mlModelAPI';
 import { patchPipelineDetails } from '../rest/pipelineAPI';
 import { patchQueries } from '../rest/queryAPI';
+import { patchQueryReport } from '../rest/queryReportAPI';
 import { patchPolicy, patchRole } from '../rest/rolesAPIV1';
 import { patchSearchIndexDetails } from '../rest/SearchIndexAPI';
 import { patchService } from '../rest/serviceAPI';
@@ -200,6 +204,8 @@ class EntityUtilClassBase {
       patchPolicy(patch, id),
     [EntityType.CLASSIFICATION]: patchClassification,
     [EntityType.TEAM]: patchTeamDetail,
+    [EntityType.INSTANCE_CODE]: patchInstanceCode,
+    [EntityType.QUERY_REPORT]: patchQueryReport,
   };
 
   private createNormalizedLookupMap<T extends Record<string, string>>(
@@ -419,6 +425,22 @@ class EntityUtilClassBase {
           tab,
           subTab
         );
+      case SearchIndex.INSTANCE_CODE:
+      case EntityType.INSTANCE_CODE:
+        return getEntityDetailsPath(
+          EntityType.INSTANCE_CODE,
+          fullyQualifiedName,
+          tab,
+          subTab
+        );
+      case SearchIndex.QUERY_REPORT:
+      case EntityType.QUERY_REPORT:
+        return getEntityDetailsPath(
+          EntityType.QUERY_REPORT,
+          fullyQualifiedName,
+          tab,
+          subTab
+        );
       case EntityType.FILE:
         return getEntityDetailsPath(
           EntityType.FILE,
@@ -510,6 +532,10 @@ class EntityUtilClassBase {
         return APIEndpointPage;
       case EntityType.METRIC:
         return MetricDetailsPage;
+      case EntityType.INSTANCE_CODE:
+        return InstanceCodeDetailsPage;
+      case EntityType.QUERY_REPORT:
+        return QueryReportDetailsPage;
       case EntityType.DIRECTORY:
         return DirectoryDetailsPage;
       case EntityType.FILE:
@@ -576,6 +602,12 @@ class EntityUtilClassBase {
       }
       case EntityType.METRIC: {
         return ResourceEntity.METRIC;
+      }
+      case EntityType.INSTANCE_CODE: {
+        return ResourceEntity.INSTANCE_CODE;
+      }
+      case EntityType.QUERY_REPORT: {
+        return ResourceEntity.QUERY_REPORT;
       }
       case EntityType.DIRECTORY: {
         return ResourceEntity.DRIVE_SERVICE;
