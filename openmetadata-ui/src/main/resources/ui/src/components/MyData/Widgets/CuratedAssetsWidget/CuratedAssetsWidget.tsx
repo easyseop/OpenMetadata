@@ -70,6 +70,9 @@ import {
   CURATED_ASSETS_SORT_BY_OPTIONS,
 } from './CuratedAssetsWidget.constants';
 
+type CuratedAssetsSearchIndexSourceMapping =
+  SearchIndexSearchSourceMapping[SearchIndex.DATA_ASSET];
+
 const CuratedAssetsWidget = ({
   isEditView,
   handleRemoveWidget,
@@ -80,9 +83,7 @@ const CuratedAssetsWidget = ({
 }: WidgetCommonProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [data, setData] = useState<
-    Array<SearchIndexSearchSourceMapping[SearchIndex]>
-  >([]);
+  const [data, setData] = useState<CuratedAssetsSearchIndexSourceMapping[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [createCuratedAssetsModalOpen, setCreateCuratedAssetsModalOpen] =
     useState<boolean>(false);
@@ -341,7 +342,7 @@ const CuratedAssetsWidget = ({
   );
 
   const entityListLinkItem = useCallback(
-    (item: SearchIndexSearchSourceMapping[SearchIndex]) => {
+    (item: CuratedAssetsSearchIndexSourceMapping) => {
       const title = getEntityName(item);
       const description = get(item, 'description');
       const certification = get(item, 'certification');

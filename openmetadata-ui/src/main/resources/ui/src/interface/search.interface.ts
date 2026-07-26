@@ -51,6 +51,7 @@ import { DatabaseService } from '../generated/entity/services/databaseService';
 import { DriveService } from '../generated/entity/services/driveService';
 import { IngestionPipeline } from '../generated/entity/services/ingestionPipelines/ingestionPipeline';
 import { MessagingService } from '../generated/entity/services/messagingService';
+import { MetadataService } from '../generated/entity/services/metadataService';
 import { MlmodelService } from '../generated/entity/services/mlmodelService';
 import { PipelineService } from '../generated/entity/services/pipelineService';
 import { SearchService } from '../generated/entity/services/searchService';
@@ -191,6 +192,9 @@ export interface DatabaseServiceSearchSource
 export interface MessagingServiceSearchSource
   extends SearchSourceBase,
     MessagingService {}
+export interface MetadataServiceSearchSource
+  extends SearchSourceBase,
+    MetadataService {}
 export interface DashboardServiceSearchSource
   extends SearchSourceBase,
     DashboardService {}
@@ -265,6 +269,7 @@ export type ExploreSearchSource =
   | PipelineServiceSearchSource
   | MlModelServiceSearchSource
   | MessagingServiceSearchSource
+  | MetadataServiceSearchSource
   | SearchServiceSearchSource
   | StorageServiceSearchSource
   | DriveServiceSearchSource
@@ -274,6 +279,8 @@ export type ExploreSearchSource =
   | APICollectionSearchSource
   | APIEndpointSearchSource
   | MetricSearchSource
+  | InstanceCodeSearchSource
+  | QueryReportSearchSource
   | TableColumnSearchSource;
 
 export type SearchIndexSearchSourceMapping = {
@@ -301,6 +308,7 @@ export type SearchIndexSearchSourceMapping = {
   [SearchIndex.PIPELINE_SERVICE]: PipelineServiceSearchSource;
   [SearchIndex.ML_MODEL_SERVICE]: MlModelServiceSearchSource;
   [SearchIndex.MESSAGING_SERVICE]: MessagingServiceSearchSource;
+  [SearchIndex.METADATA_SERVICE]: MetadataServiceSearchSource;
   [SearchIndex.SEARCH_SERVICE]: SearchServiceSearchSource;
   [SearchIndex.STORAGE_SERVICE]: StorageServiceSearchSource;
   [SearchIndex.DRIVE_SERVICE]: DriveServiceSearchSource;
