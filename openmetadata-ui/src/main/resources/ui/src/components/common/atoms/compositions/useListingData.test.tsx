@@ -14,6 +14,7 @@
 import { act, renderHook } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { SearchIndex } from '../../../../enums/search.enum';
+import { SearchResponse } from '../../../../interface/search.interface';
 import { useListingData } from './useListingData';
 
 // Mock dependencies
@@ -33,6 +34,10 @@ const mockSetPageSize = jest.fn();
 const mockSetSearchQuery = jest.fn();
 const mockSetFilters = jest.fn();
 const mockSetCurrentPage = jest.fn();
+const transform = (
+  data: SearchResponse<SearchIndex.TABLE>
+): Array<{ id: string }> =>
+  data.hits.hits.map((hit) => ({ id: hit._source.id }));
 
 const mockUseUrlState = useUrlState as jest.MockedFunction<typeof useUrlState>;
 const mockUseDataFetching = useDataFetching as jest.MockedFunction<
@@ -114,6 +119,7 @@ describe('useListingData', () => {
         () =>
           useListingData({
             searchIndex: SearchIndex.TABLE,
+            transform,
             filterKeys: [],
             columns: [],
             pageSize: 10,
@@ -134,6 +140,7 @@ describe('useListingData', () => {
         () =>
           useListingData({
             searchIndex: SearchIndex.TABLE,
+            transform,
             filterKeys: [],
             columns: [],
             pageSize: 10,
@@ -169,6 +176,7 @@ describe('useListingData', () => {
         () =>
           useListingData({
             searchIndex: SearchIndex.TABLE,
+            transform,
             filterKeys: [],
             columns: [],
             pageSize: 10,
@@ -207,6 +215,7 @@ describe('useListingData', () => {
         () =>
           useListingData({
             searchIndex: SearchIndex.TABLE,
+            transform,
             filterKeys: [],
             columns: [],
             pageSize: 10,
@@ -249,6 +258,7 @@ describe('useListingData', () => {
         () =>
           useListingData({
             searchIndex: SearchIndex.TABLE,
+            transform,
             filterKeys: [],
             columns: [],
             pageSize: 10,
@@ -293,6 +303,7 @@ describe('useListingData', () => {
         () =>
           useListingData({
             searchIndex: SearchIndex.TABLE,
+            transform,
             filterKeys: [],
             columns: [],
             pageSize: 10,

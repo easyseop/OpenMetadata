@@ -22,11 +22,18 @@ import { searchQuery } from '../../../../rest/searchAPI';
 import { domainBuildESQuery } from '../../../../utils/DomainUtils';
 import { showErrorToast } from '../../../../utils/ToastUtils';
 
-export interface DataFetchingConfig<T> {
-  searchIndex: SearchIndex;
+type SearchIndexValue<SI extends SearchIndex | SearchIndex[]> =
+  SI extends SearchIndex[] ? SI[number] : SI;
+
+export type DataFetchingSearchResponse<SI extends SearchIndex> = SearchResponse<
+  SearchIndexValue<SI>
+>;
+
+export interface DataFetchingConfig<T, SI extends SearchIndex> {
+  searchIndex: SI;
   baseFilter?: string;
   pageSize?: number;
-  transform?: (data: SearchResponse<SearchIndex>) => T[];
+  transform: (data: DataFetchingSearchResponse<SI>) => T[];
 }
 
 export interface DataFetchingResult<T> {
@@ -43,8 +50,11 @@ export interface DataFetchingResult<T> {
   ) => Promise<void>;
 }
 
-export const useDataFetching = <T extends { id: string }>(
-  config: DataFetchingConfig<T>
+export const useDataFetching = <
+  T extends { id: string },
+  SI extends SearchIndex
+>(
+  config: DataFetchingConfig<T, SI>
 ): DataFetchingResult<T> => {
   const [entities, setEntities] = useState<T[]>([]);
   const [loading, setLoading] = useState(false);
@@ -53,15 +63,6 @@ export const useDataFetching = <T extends { id: string }>(
   const [aggregations, setAggregations] = useState<Aggregations | null>(null);
 
   const { searchIndex, baseFilter = '', pageSize = 10, transform } = config;
-
-  // Default transform function
-  const defaultTransform = useCallback(
-    (data: SearchResponse<SearchIndex>) =>
-      data.hits?.hits?.map((hit) => hit._source) || [],
-    []
-  );
-
-  const transformData = transform || defaultTransform;
 
   const buildESQuery = useCallback(
     (filters: Record<string, string[]>): Record<string, unknown> =>
@@ -95,7 +96,7 @@ export const useDataFetching = <T extends { id: string }>(
         });
 
         // Process response
-        const transformedEntities = transformData(response);
+        const transformedEntities = transform(response);
         const total = response?.hits?.total?.value || 0;
         const responseAggregations = response?.aggregations || null;
 
@@ -114,7 +115,7 @@ export const useDataFetching = <T extends { id: string }>(
         setLoading(false);
       }
     },
-    [searchIndex, pageSize, transformData, buildESQuery]
+    [searchIndex, pageSize, transform, buildESQuery]
   );
 
   // Refetch function

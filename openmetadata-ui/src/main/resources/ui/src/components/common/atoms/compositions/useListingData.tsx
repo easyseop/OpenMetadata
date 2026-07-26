@@ -15,15 +15,19 @@ import { useCallback, useEffect } from 'react';
 import { SearchIndex } from '../../../../enums/search.enum';
 import { getAggregations } from '../../../../utils/ExploreUtils';
 import { ExploreQuickFilterField } from '../../../Explore/ExplorePage.interface';
-import { useDataFetching } from '../data/useDataFetching';
+import {
+  DataFetchingSearchResponse,
+  useDataFetching,
+} from '../data/useDataFetching';
 import { useSelectionState } from '../data/useSelectionState';
 import { useUrlState } from '../data/useUrlState';
 import { usePaginationState } from '../pagination/usePaginationState';
 import { CellRenderer, ColumnConfig, ListingData } from '../shared/types';
 import { useActionHandlers } from './useActionHandlers';
 
-interface UseListingDataProps<T> {
-  searchIndex: SearchIndex;
+interface UseListingDataProps<T, SI extends SearchIndex> {
+  searchIndex: SI;
+  transform: (data: DataFetchingSearchResponse<SI>) => T[];
   baseFilter?: string;
   pageSize?: number;
   filterKeys: string[];
@@ -39,12 +43,14 @@ interface UseListingDataProps<T> {
 }
 
 export const useListingData = <
-  T extends { id: string; name?: string; fullyQualifiedName?: string }
+  T extends { id: string; name?: string; fullyQualifiedName?: string },
+  SI extends SearchIndex
 >(
-  props: UseListingDataProps<T>
+  props: UseListingDataProps<T, SI>
 ): ListingData<T> => {
   const {
     searchIndex,
+    transform,
     baseFilter = '',
     pageSize = 10,
     filterKeys,
@@ -76,8 +82,9 @@ export const useListingData = <
 
   const effectivePageSize = urlState.pageSize || pageSize;
 
-  const dataFetching = useDataFetching<T>({
+  const dataFetching = useDataFetching<T, SI>({
     searchIndex,
+    transform,
     baseFilter,
     pageSize: effectivePageSize,
   });

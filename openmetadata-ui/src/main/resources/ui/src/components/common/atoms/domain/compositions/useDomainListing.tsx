@@ -11,7 +11,7 @@
  *  limitations under the License.
  */
 
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { TABLE_CARD_PAGE_SIZE } from '../../../../../constants/constants';
 import {
   DOMAIN_DEFAULT_QUICK_FILTERS,
@@ -21,6 +21,7 @@ import {
 } from '../../../../../constants/Domain.constants';
 import { SearchIndex } from '../../../../../enums/search.enum';
 import { Domain } from '../../../../../generated/entity/domains/domain';
+import { SearchResponse } from '../../../../../interface/search.interface';
 import { useListingData } from '../../compositions/useListingData';
 import { CellRenderer, ColumnConfig, ListingData } from '../../shared/types';
 import { useDomainColumns } from '../ui/useDomainColumns';
@@ -103,9 +104,16 @@ export const useDomainListing = (
     [isSubDomain]
   );
 
+  const transform = useCallback(
+    (data: SearchResponse<SearchIndex.DOMAIN>): Domain[] =>
+      data.hits.hits.map((hit) => hit._source),
+    []
+  );
+
   // Use generic listing composition with domain-specific configuration
-  const listingData = useListingData<Domain>({
+  const listingData = useListingData<Domain, SearchIndex.DOMAIN>({
     searchIndex: SearchIndex.DOMAIN,
+    transform,
     baseFilter,
     pageSize,
     filterKeys,

@@ -21,6 +21,7 @@ import {
 import { SearchIndex } from '../../../enums/search.enum';
 import { DataProduct } from '../../../generated/entity/domains/dataProduct';
 import { useMarketplaceStore } from '../../../hooks/useMarketplaceStore';
+import { SearchResponse } from '../../../interface/search.interface';
 import { getEntityName } from '../../../utils/EntityUtils';
 import { getEntityAvatarProps } from '../../../utils/IconUtils';
 import {
@@ -107,8 +108,15 @@ export const useDataProductListingData = (): ListingData<DataProduct> => {
     []
   );
 
-  const listingData = useListingData<DataProduct>({
+  const transform = useCallback(
+    (data: SearchResponse<SearchIndex.DATA_PRODUCT>): DataProduct[] =>
+      data.hits.hits.map((hit) => hit._source),
+    []
+  );
+
+  const listingData = useListingData<DataProduct, SearchIndex.DATA_PRODUCT>({
     searchIndex: SearchIndex.DATA_PRODUCT,
+    transform,
     baseFilter: '', // No parent filter for data products
     pageSize: TABLE_CARD_PAGE_SIZE,
     filterKeys,
