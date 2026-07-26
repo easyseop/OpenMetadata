@@ -80,7 +80,9 @@ export type ExploreSearchIndex =
   | SearchIndex.DIRECTORY
   | SearchIndex.FILE
   | SearchIndex.SPREADSHEET
-  | SearchIndex.WORKSHEET;
+  | SearchIndex.WORKSHEET
+  | SearchIndex.INSTANCE_CODE
+  | SearchIndex.QUERY_REPORT;
 
 export type SearchHitCounts = Record<ExploreSearchIndex, number>;
 
