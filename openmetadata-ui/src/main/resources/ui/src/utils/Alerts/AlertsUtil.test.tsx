@@ -536,6 +536,54 @@ describe('getFieldByArgumentType tests', () => {
     });
   });
 
+  it('entityIdList: prefers source id and falls back to hit id', async () => {
+    const { AsyncSelect: MockedAsyncSelect } = jest.requireMock(
+      '../../components/common/AsyncSelect/AsyncSelect'
+    );
+    MockedAsyncSelect.mockClear();
+    (searchQuery as jest.Mock).mockResolvedValueOnce({
+      hits: {
+        hits: [
+          {
+            _id: 'ignored-hit-id',
+            _index: SearchIndex.TABLE,
+            _source: {
+              id: 'source-entity-id',
+              fullyQualifiedName: 'service.database.schema.sourceTable',
+            },
+          },
+          {
+            _id: 'fallback-entity-id',
+            _index: SearchIndex.TABLE,
+            _source: {
+              fullyQualifiedName: 'service.database.schema.table',
+            },
+          },
+        ],
+      },
+    });
+
+    const field = getFieldByArgumentType(0, 'entityIdList', 0, 'table');
+
+    render(field);
+
+    const apiFn = MockedAsyncSelect.mock.calls[0][0].api as (
+      searchText: string
+    ) => Promise<Array<{ uuid: string; value: string }>>;
+    const result = await apiFn('');
+
+    expect(result).toEqual([
+      expect.objectContaining({
+        uuid: 'source-entity-id',
+        value: 'source-entity-id',
+      }),
+      expect.objectContaining({
+        uuid: 'fallback-entity-id',
+        value: 'fallback-entity-id',
+      }),
+    ]);
+  });
+
   it('fqnList: strict-pick (mode="multiple", no free-text tags)', () => {
     const { AsyncSelect: MockedAsyncSelect } = jest.requireMock(
       '../../components/common/AsyncSelect/AsyncSelect'

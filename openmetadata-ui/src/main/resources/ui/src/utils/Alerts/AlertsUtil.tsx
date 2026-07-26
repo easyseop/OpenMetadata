@@ -1103,7 +1103,10 @@ export const getFieldByArgumentType = (
 
       return uniqBy(
         response.hits.hits.map((d) => {
-          const id = d._source.id ?? '';
+          const id =
+            'id' in d._source && typeof d._source.id === 'string'
+              ? d._source.id
+              : d._id;
           const fqn = d._source.fullyQualifiedName ?? '';
 
           return {
