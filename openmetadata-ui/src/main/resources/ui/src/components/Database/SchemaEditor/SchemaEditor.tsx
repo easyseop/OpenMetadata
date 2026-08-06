@@ -75,13 +75,37 @@ const SchemaEditor = ({
   );
   const editorInstance = useRef<Editor | null>(null);
   const wasHiddenRef = useRef(false);
+  // While an IME composition (Korean/Japanese/Chinese input) is in progress,
+  // CodeMirror must own its buffer uninterrupted — pushing React state back
+  // into the controlled `value` prop mid-composition resets the document and
+  // breaks Hangul jamo composition (out-of-order/doubled characters).
+  const isComposingRef = useRef(false);
   const { onCopyToClipBoard, hasCopied } = useClipboard(internalValue);
+
+  const handleCompositionStart = useCallback(() => {
+    isComposingRef.current = true;
+  }, []);
+
+  const handleCompositionEnd = useCallback(() => {
+    isComposingRef.current = false;
+    if (!editorInstance.current) {
+      return;
+    }
+    const finalValue = getSchemaEditorValue(editorInstance.current.getValue());
+    setInternalValue(finalValue);
+    if (!isUndefined(onChange)) {
+      onChange(finalValue);
+    }
+  }, [onChange]);
 
   const handleEditorInputBeforeChange = (
     _editor: Editor,
     _data: EditorChange,
     value: string
   ): void => {
+    if (isComposingRef.current) {
+      return;
+    }
     setInternalValue(getSchemaEditorValue(value));
   };
   const handleEditorInputChange = (
@@ -89,6 +113,9 @@ const SchemaEditor = ({
     _data: EditorChange,
     value: string
   ): void => {
+    if (isComposingRef.current) {
+      return;
+    }
     if (!isUndefined(onChange)) {
       onChange(getSchemaEditorValue(value));
     }
@@ -109,13 +136,26 @@ const SchemaEditor = ({
     if (editorInstance.current) {
       const editorWrapper = editorInstance.current.getWrapperElement();
       if (editorWrapper) {
+        editorWrapper.removeEventListener(
+          'compositionstart',
+          handleCompositionStart
+        );
+        editorWrapper.removeEventListener(
+          'compositionend',
+          handleCompositionEnd
+        );
         editorWrapper.remove();
       }
     }
     if (wrapperRef.current) {
       (wrapperRef.current as unknown as { hydrated: boolean }).hydrated = false;
     }
-  }, [editorInstance, wrapperRef]);
+  }, [
+    editorInstance,
+    wrapperRef,
+    handleCompositionStart,
+    handleCompositionEnd,
+  ]);
 
   useEffect(() => {
     setInternalValue(getSchemaEditorValue(value));
@@ -187,6 +227,12 @@ const SchemaEditor = ({
         className={editorClass}
         editorDidMount={(editor) => {
           editorInstance.current = editor;
+          const wrapperEl = editor.getWrapperElement();
+          wrapperEl.addEventListener(
+            'compositionstart',
+            handleCompositionStart
+          );
+          wrapperEl.addEventListener('compositionend', handleCompositionEnd);
         }}
         editorWillUnmount={editorWillUnmount}
         options={defaultOptions}
