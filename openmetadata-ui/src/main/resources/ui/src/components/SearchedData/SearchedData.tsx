@@ -17,7 +17,9 @@ import Qs from 'qs';
 import { useMemo } from 'react';
 import { MAX_RESULT_HITS } from '../../constants/explore.constants';
 import { ELASTICSEARCH_ERROR_PLACEHOLDER_TYPE } from '../../enums/common.enum';
+import { EntityType } from '../../enums/entity.enum';
 import { useCurrentUserPreferences } from '../../hooks/currentUserStore/useCurrentUserStore';
+import { InstanceCodeSearchSource } from '../../interface/search.interface';
 import { pluralize } from '../../utils/CommonUtils';
 import ErrorPlaceHolderES from '../common/ErrorWithPlaceholder/ErrorPlaceHolderES';
 import Loader from '../common/Loader/Loader';
@@ -50,7 +52,33 @@ const SearchedData: React.FC<SearchedDataProps> = ({
   } = useCurrentUserPreferences();
 
   const searchResultCards = useMemo(() => {
-    return data.map(({ _source: table, highlight, _id }) => {
+    const seenInstanceCodeGroups = new Set<string>();
+    const visibleData = data
+      .map((hit) => {
+        if (hit._source.entityType !== EntityType.INSTANCE_CODE) {
+          return hit;
+        }
+        const codeGroup = (hit._source as InstanceCodeSearchSource).codeGroup;
+
+        return {
+          ...hit,
+          _source: { ...hit._source, displayName: codeGroup },
+        };
+      })
+      .filter(({ _source: source }) => {
+        if (source.entityType !== EntityType.INSTANCE_CODE) {
+          return true;
+        }
+        const codeGroup = (source as InstanceCodeSearchSource).codeGroup;
+        if (seenInstanceCodeGroups.has(codeGroup)) {
+          return false;
+        }
+        seenInstanceCodeGroups.add(codeGroup);
+
+        return true;
+      });
+
+    return visibleData.map(({ _source: table, highlight, _id }) => {
       const matches = highlight
         ? Object.entries(highlight)
             .filter(([key]) => !key.includes('.ngram'))

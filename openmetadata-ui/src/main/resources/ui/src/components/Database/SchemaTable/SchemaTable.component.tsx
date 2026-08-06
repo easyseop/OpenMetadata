@@ -54,6 +54,7 @@ import {
 import { EntityType } from '../../../enums/entity.enum';
 import {
   Column,
+  Constraint,
   Table as TableType,
 } from '../../../generated/entity/data/table';
 import {
@@ -739,6 +740,13 @@ const SchemaTable = () => {
   const columns: ColumnsType<Column> = useMemo(
     () => [
       {
+        title: t('label.no'),
+        key: TABLE_COLUMNS_KEYS.ROW_NUMBER,
+        width: 60,
+        fixed: 'left',
+        render: (_: unknown, __: Column, index: number) => index + 1,
+      },
+      {
         title: (
           <Button
             className="d-flex items-center cursor-pointer bg-transparent border-none p-0 h-auto hover:bg-transparent"
@@ -773,6 +781,23 @@ const SchemaTable = () => {
         render: renderDisplayName,
       },
       {
+        title: t('label.primary-key'),
+        key: TABLE_COLUMNS_KEYS.PRIMARY_KEY,
+        width: 100,
+        render: (_: unknown, record: Column) =>
+          record.constraint === Constraint.PrimaryKey
+            ? t('label.yes')
+            : t('label.no'),
+      },
+      {
+        title: t('label.attribute-name'),
+        key: TABLE_COLUMNS_KEYS.ATTRIBUTE_NAME,
+        width: 150,
+        render: (_: unknown, record: Column) =>
+          (record.extension as Record<string, string>)?.attributeName ??
+          NO_DATA_PLACEHOLDER,
+      },
+      {
         title: t('label.type'),
         dataIndex: TABLE_COLUMNS_KEYS.DATA_TYPE_DISPLAY,
         key: TABLE_COLUMNS_KEYS.DATA_TYPE_DISPLAY,
@@ -780,11 +805,68 @@ const SchemaTable = () => {
         render: renderDataTypeDisplay,
       },
       {
+        title: t('label.instance-name'),
+        key: TABLE_COLUMNS_KEYS.INSTANCE_NAME,
+        width: 150,
+        render: (_: unknown, record: Column) =>
+          (record.extension as Record<string, string>)?.instanceName ??
+          NO_DATA_PLACEHOLDER,
+      },
+      {
+        title: t('label.info-type'),
+        key: TABLE_COLUMNS_KEYS.INFO_TYPE,
+        width: 150,
+        render: (_: unknown, record: Column) =>
+          (record.extension as Record<string, string>)?.infoType ??
+          NO_DATA_PLACEHOLDER,
+      },
+      {
+        title: t('label.variable-name'),
+        key: TABLE_COLUMNS_KEYS.VARIABLE_NAME,
+        width: 150,
+        render: (_: unknown, record: Column) =>
+          (record.extension as Record<string, string>)?.variableName ??
+          NO_DATA_PLACEHOLDER,
+      },
+      {
         title: t('label.description'),
         dataIndex: TABLE_COLUMNS_KEYS.DESCRIPTION,
         key: TABLE_COLUMNS_KEYS.DESCRIPTION,
         width: 300,
         render: renderDescription,
+      },
+      {
+        title: t('label.last-modified-date'),
+        key: TABLE_COLUMNS_KEYS.LAST_MODIFIED_DATE,
+        width: 150,
+        render: (_: unknown, record: Column) =>
+          (record.extension as Record<string, string>)?.lastModifiedDate ??
+          NO_DATA_PLACEHOLDER,
+      },
+      {
+        title: t('label.business-rule'),
+        key: TABLE_COLUMNS_KEYS.BUSINESS_RULE,
+        width: 200,
+        render: (_: unknown, record: Column) =>
+          (record.extension as Record<string, string>)?.businessRule ??
+          NO_DATA_PLACEHOLDER,
+      },
+      {
+        title: t('label.encryption-transform-info'),
+        key: TABLE_COLUMNS_KEYS.ENCRYPTION_TRANSFORM_INFO,
+        width: 200,
+        render: (_: unknown, record: Column) =>
+          (record.extension as Record<string, string>)
+            ?.encryptionTransformInfo ?? NO_DATA_PLACEHOLDER,
+      },
+      {
+        title: t('label.is-encrypted'),
+        key: TABLE_COLUMNS_KEYS.IS_ENCRYPTED,
+        width: 100,
+        render: (_: unknown, record: Column) =>
+          (record.extension as Record<string, boolean>)?.isEncrypted
+            ? t('label.yes')
+            : t('label.no'),
       },
       {
         title: t('label.tag-plural'),

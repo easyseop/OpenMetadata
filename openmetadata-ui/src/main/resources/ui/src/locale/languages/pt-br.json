@@ -2392,7 +2392,16 @@
         "data-assertion-plural": "Data Assertions",
         "my-failed-assertion-plural": "My Failed Assertions",
         "pass-rate": "Pass Rate",
-        "re-validate-data": "Re-validate Data"
+        "re-validate-data": "Re-validate Data",
+        "attribute-name": "Attribute Name",
+        "business-instance-code": "Business Instance Code",
+        "business-instance-content": "Business Instance Content",
+        "copy-all": "Copy All",
+        "copy-table": "Copy Table",
+        "instance-name": "Instance Name",
+        "last-modified-date": "Last Modified Date",
+        "registered-date": "Registered Date",
+        "unknown": "Unknown"
     },
     "message": {
         "access-block-time-message": "O acesso será bloqueado por milissegundos após o máximo de tentativas de login falhas serem realizadas.",

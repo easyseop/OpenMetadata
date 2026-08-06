@@ -457,6 +457,8 @@ export const DataAssetSummaryPanelV1 = ({
       case EntityType.APPLICATION:
       case EntityType.ALERT:
       case EntityType.EVENT_SUBSCRIPTION:
+      case EntityType.INSTANCE_CODE:
+      case EntityType.QUERY_REPORT:
         return (
           <>
             {entityType === EntityType.TABLE && (

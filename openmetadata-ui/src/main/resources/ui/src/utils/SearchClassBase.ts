@@ -64,8 +64,8 @@ import {
   entitySortingFields,
   INITIAL_SORT_FIELD,
   tableSortingFields,
-  TAGS_INITIAL_SORT_FIELD,
   tagSortingFields,
+  TAGS_INITIAL_SORT_FIELD,
 } from '../constants/explore.constants';
 import {
   Option,
@@ -131,6 +131,8 @@ class SearchClassBase {
       [EntityType.FILE]: SearchIndex.FILE,
       [EntityType.SPREADSHEET]: SearchIndex.SPREADSHEET,
       [EntityType.WORKSHEET]: SearchIndex.WORKSHEET,
+      [EntityType.INSTANCE_CODE]: SearchIndex.INSTANCE_CODE,
+      [EntityType.QUERY_REPORT]: SearchIndex.QUERY_REPORT,
       [EntityType.TABLE_COLUMN]: SearchIndex.COLUMN,
     };
   }
@@ -177,6 +179,8 @@ class SearchClassBase {
       [SearchIndex.FILE]: EntityType.FILE,
       [SearchIndex.SPREADSHEET]: EntityType.SPREADSHEET,
       [SearchIndex.WORKSHEET]: EntityType.WORKSHEET,
+      [SearchIndex.INSTANCE_CODE]: EntityType.INSTANCE_CODE,
+      [SearchIndex.QUERY_REPORT]: EntityType.QUERY_REPORT,
       [SearchIndex.COLUMN]: EntityType.TABLE_COLUMN,
     };
   }
@@ -225,6 +229,14 @@ class SearchClassBase {
         label: t('label.directory'),
       },
       {
+        value: SearchIndex.INSTANCE_CODE,
+        label: t('label.instance-code'),
+      },
+      {
+        value: SearchIndex.QUERY_REPORT,
+        label: t('label.query-report'),
+      },
+      {
         value: SearchIndex.FILE,
         label: t('label.file'),
       },
@@ -251,7 +263,6 @@ class SearchClassBase {
             EntityType.DATABASE_SCHEMA,
             EntityType.STORED_PROCEDURE,
             EntityType.TABLE,
-            EntityType.TABLE_COLUMN,
           ],
         },
         icon: DatabaseIcon,
@@ -298,6 +309,18 @@ class SearchClassBase {
         key: SearchIndex.SEARCH_INDEX,
         data: { isRoot: true, childEntities: [EntityType.SEARCH_INDEX] },
         icon: SearchIcon,
+      },
+      {
+        title: t('label.instance-code-plural'),
+        key: SearchIndex.INSTANCE_CODE,
+        data: { isRoot: true, childEntities: [EntityType.INSTANCE_CODE] },
+        icon: MetricIcon,
+      },
+      {
+        title: t('label.query-report-plural'),
+        key: SearchIndex.QUERY_REPORT,
+        data: { isRoot: true, childEntities: [EntityType.QUERY_REPORT] },
+        icon: ChartIcon,
       },
       {
         title: t('label.api-uppercase-plural'),
@@ -407,6 +430,8 @@ class SearchClassBase {
       [ExplorePageTabs.FILES]: [SearchIndex.FILE],
       [ExplorePageTabs.SPREADSHEETS]: [SearchIndex.SPREADSHEET],
       [ExplorePageTabs.WORKSHEETS]: [SearchIndex.WORKSHEET],
+      [ExplorePageTabs.INSTANCE_CODE]: [SearchIndex.INSTANCE_CODE],
+      [ExplorePageTabs.QUERY_REPORT]: [SearchIndex.QUERY_REPORT],
     };
 
     return tabMapping[tab] || [SearchIndex.DATABASE];
@@ -576,6 +601,20 @@ class SearchClassBase {
         path: ExplorePageTabs.WORKSHEETS,
         icon: WorksheetIcon,
       },
+      [SearchIndex.INSTANCE_CODE]: {
+        label: t('label.instance-code-plural'),
+        sortingFields: tagSortingFields,
+        sortField: TAGS_INITIAL_SORT_FIELD,
+        path: ExplorePageTabs.INSTANCE_CODE,
+        icon: MetricIcon,
+      },
+      [SearchIndex.QUERY_REPORT]: {
+        label: t('label.query-report-plural'),
+        sortingFields: tagSortingFields,
+        sortField: TAGS_INITIAL_SORT_FIELD,
+        path: ExplorePageTabs.QUERY_REPORT,
+        icon: ChartIcon,
+      },
     };
   }
   public getDropDownItems(index: string) {
@@ -617,6 +656,8 @@ class SearchClassBase {
       case SearchIndex.DATABASE_SCHEMA:
       case SearchIndex.API_COLLECTION:
       case SearchIndex.METRIC:
+      case SearchIndex.INSTANCE_CODE:
+      case SearchIndex.QUERY_REPORT:
         return COMMON_DROPDOWN_ITEMS;
       case SearchIndex.DATA_ASSET:
         return DATA_ASSET_DROPDOWN_ITEMS;

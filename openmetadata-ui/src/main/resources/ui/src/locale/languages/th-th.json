@@ -2392,7 +2392,16 @@
         "data-assertion-plural": "Data Assertions",
         "my-failed-assertion-plural": "My Failed Assertions",
         "pass-rate": "Pass Rate",
-        "re-validate-data": "Re-validate Data"
+        "re-validate-data": "Re-validate Data",
+        "attribute-name": "Attribute Name",
+        "business-instance-code": "Business Instance Code",
+        "business-instance-content": "Business Instance Content",
+        "copy-all": "Copy All",
+        "copy-table": "Copy Table",
+        "instance-name": "Instance Name",
+        "last-modified-date": "Last Modified Date",
+        "registered-date": "Registered Date",
+        "unknown": "Unknown"
     },
     "message": {
         "access-block-time-message": "การเข้าถึงจะถูกบล็อกเป็นมิลลิวินาทีหลังจากมีความพยายามเข้าสู่ระบบที่ล้มเหลวสูงสุด",
@@ -2867,7 +2876,6 @@
         "manifest-partition-column-unknown-field": "รายการ {{entryIndex}}: partitionColumns[{{colIndex}}] มีฟิลด์ที่ไม่รู้จัก \"{{field}}\"{{suggestion}}",
         "manifest-top-level-must-be-object": "ค่าระดับบนสุดต้องเป็นอ็อบเจกต์ที่มีอาร์เรย์ \"entries\"",
         "manifest-unknown-top-level-field": "ฟิลด์ระดับบนสุดที่ไม่รู้จัก \"{{field}}\" อนุญาตเฉพาะ \"entries\" เท่านั้น",
-        "manual-upload-agent-context": "การอัปโหลดด้วยตนเองสำหรับบริบทของตัวแทนเฉพาะ",
         "mark-all-deleted-table-message": "นี่คือการกำหนดค่าเสริมสำหรับการเปิดใช้การลบตารางแบบ soft delete เมื่อเปิดใช้ตัวเลือกนี้ เฉพาะตารางที่ถูกลบจากแหล่งที่มาเท่านั้นที่จะถูก soft delete และจะใช้กับสคีมาทั้งหมดที่มีอยู่ในแหล่งข้อมูล เอนทิตีที่เกี่ยวข้อง เช่น ชุดทดสอบหรือข้อมูลสายสัมพันธ์ที่เชื่อมโยงกับตารางเหล่านั้นก็จะถูกลบด้วย อย่าเปิดตัวเลือกนี้เมื่อคุณมีไปป์ไลน์การนำเข้าเมตาดาต้าหลายรายการ และตรวจสอบให้แน่ใจว่าได้เปิดใช้ตัวเลือก markDeletedTables เพื่อให้สิ่งนี้ทำงาน",
         "mark-deleted-entity-message": "การกำหนดค่าเสริมในการ soft delete '{{entityPlural}}' ใน {{brandName}} หากแหล่งที่มา '{{entityPlural}}' ถูกลบ หลังจากลบแล้ว เอนทิตีที่เกี่ยวข้องทั้งหมด เช่น สายสัมพันธ์ ฯลฯ กับ '{{entity}}' นั้นจะถูกลบด้วย",
         "mark-deleted-table-message": "นี่คือการกำหนดค่าเสริมสำหรับการเปิดใช้การลบตารางแบบ soft delete เมื่อเปิดใช้ตัวเลือกนี้ เฉพาะตารางที่ถูกลบจากแหล่งที่มาเท่านั้นที่จะถูก soft delete และจะใช้กับสคีมาที่กำลังนำเข้าผ่านไปป์ไลน์เท่านั้น เอนทิตีที่เกี่ยวข้อง เช่น ชุดทดสอบหรือข้อมูลสายสัมพันธ์ที่เชื่อมโยงกับตารางเหล่านั้นก็จะถูกลบด้วย",

@@ -2392,7 +2392,16 @@
         "data-assertion-plural": "Data Assertions",
         "my-failed-assertion-plural": "검증 실패 항목",
         "pass-rate": "Pass Rate",
-        "re-validate-data": "Re-validate Data"
+        "re-validate-data": "Re-validate Data",
+        "attribute-name": "Attribute Name",
+        "business-instance-code": "Business Instance Code",
+        "business-instance-content": "Business Instance Content",
+        "copy-all": "Copy All",
+        "copy-table": "Copy Table",
+        "instance-name": "Instance Name",
+        "last-modified-date": "Last Modified Date",
+        "registered-date": "Registered Date",
+        "unknown": "Unknown"
     },
     "message": {
         "access-block-time-message": "최대 로그인 실패 시도 횟수 이후 밀리초 동안 접근이 차단됩니다.",
@@ -2588,7 +2597,6 @@
         "default-persona-update-error": "기본 페르소나 업데이트에 실패했습니다. 다시 시도해 주세요.",
         "define-custom-property-for-column": "테이블과 대시보드 데이터 모델의 열 수준에 대한 사용자 정의 속성을 정의하세요.",
         "define-custom-property-for-entity": "조직의 요구 사항을 충족시키기 위해 {{entity}}에 대한 사용자 정의 속성을 정의하세요.",
-        "define-when-the-workflow-should-run": "워크플로 실행 시점을 정의하세요",
         "delete-action-description": "이 {{entityType}}을(를) 삭제하면 {{brandName}}에서 해당 메타데이터가 영구적으로 제거됩니다.",
         "delete-asset-from-entity-type": "이것을 삭제하면 엔티티에서 {{entityType}}이(가) 제거됩니다.",
         "delete-data-asset-rule-confirmation": "데이터 자산 규칙 '{{name}}'을(를) 삭제하시겠습니까?",

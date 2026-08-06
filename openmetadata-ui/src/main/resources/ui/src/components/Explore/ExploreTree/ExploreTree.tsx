@@ -18,8 +18,10 @@ import { isEmpty, isString, isUndefined } from 'lodash';
 import Qs from 'qs';
 import { Key, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { ReactComponent as IconDown } from '../../../assets/svg/ic-arrow-down.svg';
 import { ReactComponent as IconRight } from '../../../assets/svg/ic-arrow-right.svg';
+import { ROUTES } from '../../../constants/constants';
 import { DATA_DISCOVERY_DOCS } from '../../../constants/docs.constants';
 import { EntityFields } from '../../../enums/AdvancedSearch.enum';
 import { ERROR_PLACEHOLDER_TYPE, SIZE } from '../../../enums/common.enum';
@@ -88,6 +90,7 @@ const ExploreTreeTitle = ({ node }: { node: ExploreTreeNode }) => {
 const ExploreTree = ({ onFieldValueSelect }: ExploreTreeProps) => {
   const hasFetchedRef = useRef(false); // Use a ref to track if we've already fetched, in dev mode as it will fetch twice
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { tab } = useRequiredParams<UrlParams>();
   const initTreeData = searchClassBase.getExploreTree();
   const [treeData, setTreeData] = useState(initTreeData);
@@ -266,6 +269,18 @@ const ExploreTree = ({ onFieldValueSelect }: ExploreTreeProps) => {
       info: Parameters<NonNullable<TreeProps['onSelect']>>[1]
     ) => {
       const node = info.node as ExploreTreeNode;
+
+      if (node.key === SearchIndex.INSTANCE_CODE) {
+        navigate(ROUTES.INSTANCE_CODES);
+
+        return;
+      }
+      if (node.key === SearchIndex.QUERY_REPORT) {
+        navigate(ROUTES.QUERY_REPORTS);
+
+        return;
+      }
+
       const filterField = node.data?.filterField;
       if (filterField) {
         onFieldValueSelect(filterField);
@@ -288,7 +303,7 @@ const ExploreTree = ({ onFieldValueSelect }: ExploreTreeProps) => {
 
       setSelectedKeys([node.key]);
     },
-    [onFieldValueSelect]
+    [onFieldValueSelect, navigate]
   );
 
   const fetchEntityCounts = useCallback(async () => {

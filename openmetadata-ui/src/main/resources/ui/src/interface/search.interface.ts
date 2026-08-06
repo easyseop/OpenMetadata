@@ -31,10 +31,12 @@ import { Directory } from '../generated/entity/data/directory';
 import { File } from '../generated/entity/data/file';
 import { Glossary } from '../generated/entity/data/glossary';
 import { GlossaryTerm } from '../generated/entity/data/glossaryTerm';
+import { InstanceCode } from '../generated/entity/data/instanceCode';
 import { Metric } from '../generated/entity/data/metric';
 import { Mlmodel } from '../generated/entity/data/mlmodel';
 import { Pipeline } from '../generated/entity/data/pipeline';
 import { Query } from '../generated/entity/data/query';
+import { QueryReport } from '../generated/entity/data/queryReport';
 import { SearchIndex as SearchIndexEntity } from '../generated/entity/data/searchIndex';
 import { Spreadsheet } from '../generated/entity/data/spreadsheet';
 import { StoredProcedure } from '../generated/entity/data/storedProcedure';
@@ -223,6 +225,14 @@ export interface APIEndpointSearchSource
 
 export interface MetricSearchSource extends SearchSourceBase, Metric {}
 
+export interface InstanceCodeSearchSource
+  extends SearchSourceBase,
+    InstanceCode {}
+
+export interface QueryReportSearchSource
+  extends SearchSourceBase,
+    QueryReport {}
+
 export interface DirectorySearchSource extends SearchSourceBase, Directory {}
 
 export interface FileSearchSource extends SearchSourceBase, File {}
@@ -305,6 +315,8 @@ export type SearchIndexSearchSourceMapping = {
   [SearchIndex.API_COLLECTION]: APICollectionSearchSource;
   [SearchIndex.API_ENDPOINT]: APIEndpointSearchSource;
   [SearchIndex.METRIC]: MetricSearchSource;
+  [SearchIndex.INSTANCE_CODE]: InstanceCodeSearchSource;
+  [SearchIndex.QUERY_REPORT]: QueryReportSearchSource;
   [SearchIndex.DIRECTORY]: DirectorySearchSource;
   [SearchIndex.FILE]: FileSearchSource;
   [SearchIndex.SPREADSHEET]: SpreadsheetSearchSource;
