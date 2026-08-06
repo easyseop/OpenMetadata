@@ -2388,7 +2388,11 @@
         "query-report": "Query Report",
         "query-report-lowercase-plural": "query reports",
         "query-report-plural": "Query Reports",
-        "variable-name": "Variable Name"
+        "variable-name": "Variable Name",
+        "data-assertion-plural": "Data Assertions",
+        "my-failed-assertion-plural": "My Failed Assertions",
+        "pass-rate": "Pass Rate",
+        "re-validate-data": "Re-validate Data"
     },
     "message": {
         "access-block-time-message": "Доступ заблокируется после ряда неудачных попыток (на несколько секунд).",
@@ -3362,7 +3366,8 @@
         "you-can-also-set-up-the-metadata-ingestion": "Вы также можете настроить прием метаданных.",
         "instance-code-description": "Manage common/reference codes used as shared master data across the platform.",
         "instance-code-group-description": "The {{codeGroupName}} code group contains {{count}} registered code(s).",
-        "query-report-description": "Manage report metadata and view the SQL queries associated with each report."
+        "query-report-description": "Manage report metadata and view the SQL queries associated with each report.",
+        "data-assertions-revalidate-placeholder": "Re-validation will be available soon."
     },
     "server": {
         "account-verify-success": "Электронная почта подтверждена",

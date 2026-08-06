@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 import Loader from '../../components/common/Loader/Loader';
 import { AdvanceSearchProvider } from '../../components/Explore/AdvanceSearchProvider/AdvanceSearchProvider.component';
 import CustomiseLandingPageHeader from '../../components/MyData/CustomizableComponents/CustomiseLandingPageHeader/CustomiseLandingPageHeader';
+import MyDataFailedAssertions from '../../components/MyData/MyDataFailedAssertions/MyDataFailedAssertions.component';
 import WelcomeScreen from '../../components/MyData/WelcomeScreen/WelcomeScreen.component';
 import PageLayoutV1 from '../../components/PageLayoutV1/PageLayoutV1';
 import { LOGGED_IN_USER_STORAGE_KEY } from '../../constants/constants';
@@ -291,6 +292,7 @@ const MyDataPage = () => {
             {widgets}
           </ReactGridLayout>
         </div>
+        <MyDataFailedAssertions />
         <LimitWrapper resource="dataAssets">
           <br />
         </LimitWrapper>

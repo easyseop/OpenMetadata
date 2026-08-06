@@ -306,6 +306,7 @@ const AddMetricPage = withSuspenseFallback(
 const InstanceCodeListPage = withSuspenseFallback(
   React.lazy(() => import('../../components/InstanceCode/InstanceCodeListPage'))
 );
+
 const InstanceCodeGroupDetailsPage = withSuspenseFallback(
   React.lazy(
     () =>
@@ -314,9 +315,11 @@ const InstanceCodeGroupDetailsPage = withSuspenseFallback(
       )
   )
 );
+
 const QueryReportListPage = withSuspenseFallback(
   React.lazy(() => import('../../components/QueryReport/QueryReportListPage'))
 );
+
 const QueryReportYearDetailsPage = withSuspenseFallback(
   React.lazy(
     () =>
@@ -325,11 +328,16 @@ const QueryReportYearDetailsPage = withSuspenseFallback(
       )
   )
 );
+
 const ColumnBulkOperationsPage = withSuspenseFallback(
   React.lazy(
     () =>
       import('../../pages/ColumnBulkOperations/ColumnBulkOperations.component')
   )
+);
+
+const DataAssertionsPage = withSuspenseFallback(
+  React.lazy(() => import('../../pages/DataAssertionsPage/DataAssertionsPage'))
 );
 
 const AuthenticatedAppRouter: FunctionComponent = () => {
@@ -798,11 +806,16 @@ const AuthenticatedAppRouter: FunctionComponent = () => {
       />
       <Route element={<MetricListPage />} path={ROUTES.METRICS} />
       <Route element={<InstanceCodeListPage />} path={ROUTES.INSTANCE_CODES} />
+      <Route
         element={<InstanceCodeGroupDetailsPage />}
         path={ROUTES.INSTANCE_CODE_GROUP}
+      />
       <Route element={<QueryReportListPage />} path={ROUTES.QUERY_REPORTS} />
+      <Route
         element={<QueryReportYearDetailsPage />}
         path={ROUTES.QUERY_REPORT_YEAR}
+      />
+      <Route element={<DataAssertionsPage />} path={ROUTES.DATA_ASSERTIONS} />
       <Route
         element={
           <AddMetricPage
