@@ -491,6 +491,11 @@ export const getInstanceCodeGroupPath = (codeGroup: string) => {
     getEncodedFqn(codeGroup)
   );
 };
+
+export const getQueryReportYearPath = (year: string) => {
+  return ROUTES.QUERY_REPORT_YEAR.replace(PLACEHOLDER_ROUTE_FQN, year);
+};
+
 export const getGlossaryVersionsPath = (id: string, version: string) => {
   let path = ROUTES.GLOSSARY_VERSION;
   path = path

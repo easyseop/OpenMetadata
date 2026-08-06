@@ -2378,7 +2378,17 @@
         "instance-code": "Instance Code",
         "instance-code-lowercase-plural": "instance codes",
         "instance-code-plural": "Instance Codes",
-        "sort-order": "Sort Order"
+        "sort-order": "Sort Order",
+        "business-rule": "Business Rule",
+        "encryption-transform-info": "Encryption Transform Info",
+        "info-type": "Info Type",
+        "is-encrypted": "Is Encrypted",
+        "message": "Message",
+        "other": "Other",
+        "query-report": "Query Report",
+        "query-report-lowercase-plural": "query reports",
+        "query-report-plural": "Query Reports",
+        "variable-name": "Variable Name"
     },
     "message": {
         "access-block-time-message": "سيتم حظر الوصول لـ مللي ثانية بعد الوصول إلى الحد الأقصى لمحاولات تسجيل الدخول الفاشلة.",
@@ -3364,7 +3374,8 @@
         "write-your-text": "اكتب {{text}} الخاص بك",
         "you-can-also-set-up-the-metadata-ingestion": "يمكنك أيضًا إعداد استيعاب البيانات الوصفية.",
         "instance-code-description": "Manage common/reference codes used as shared master data across the platform.",
-        "instance-code-group-description": "The {{codeGroupName}} code group contains {{count}} registered code(s)."
+        "instance-code-group-description": "The {{codeGroupName}} code group contains {{count}} registered code(s).",
+        "query-report-description": "Manage report metadata and view the SQL queries associated with each report."
     },
     "server": {
         "account-verify-success": "تم التحقق من البريد الإلكتروني بنجاح",

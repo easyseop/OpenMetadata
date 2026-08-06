@@ -51,4 +51,5 @@ export enum ExplorePageTabs {
   SPREADSHEETS = 'spreadsheets',
   WORKSHEETS = 'worksheets',
   INSTANCE_CODE = 'instanceCode',
+  QUERY_REPORT = 'queryReport',
 }

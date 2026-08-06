@@ -2378,7 +2378,17 @@
         "instance-code": "인스턴스 코드",
         "instance-code-lowercase-plural": "인스턴스 코드",
         "instance-code-plural": "인스턴스 코드",
-        "sort-order": "Sort Order"
+        "sort-order": "Sort Order",
+        "business-rule": "Business Rule",
+        "encryption-transform-info": "Encryption Transform Info",
+        "info-type": "Info Type",
+        "is-encrypted": "Is Encrypted",
+        "message": "Message",
+        "other": "Other",
+        "query-report": "보고서 프로젝트",
+        "query-report-lowercase-plural": "보고서 프로젝트",
+        "query-report-plural": "보고서 프로젝트",
+        "variable-name": "Variable Name"
     },
     "message": {
         "access-block-time-message": "최대 로그인 실패 시도 횟수 이후 밀리초 동안 접근이 차단됩니다.",
@@ -3351,7 +3361,8 @@
         "write-your-text": "{{text}} 작성",
         "you-can-also-set-up-the-metadata-ingestion": "메타데이터 수집을 설정할 수도 있습니다.",
         "instance-code-description": "Manage common/reference codes used as shared master data across the platform.",
-        "instance-code-group-description": "The {{codeGroupName}} code group contains {{count}} registered code(s)."
+        "instance-code-group-description": "The {{codeGroupName}} code group contains {{count}} registered code(s).",
+        "query-report-description": "Manage report metadata and view the SQL queries associated with each report."
     },
     "server": {
         "account-verify-success": "이메일이 성공적으로 인증되었습니다",

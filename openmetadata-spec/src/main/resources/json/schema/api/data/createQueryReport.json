@@ -1,0 +1,64 @@
+{
+  "$id": "https://open-metadata.org/schema/api/data/createQueryReport.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CreateQueryReportRequest",
+  "description": "Create QueryReport entity request",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.api.data.CreateQueryReport",
+  "javaInterfaces": ["org.openmetadata.schema.CreateEntity"],
+  "properties": {
+    "name": {
+      "description": "Name that identifies this QueryReport instance.",
+      "$ref": "../../type/basic.json#/definitions/entityName"
+    },
+    "displayName": {
+      "description": "Display Name that identifies this QueryReport.",
+      "type": "string"
+    },
+    "description": {
+      "description": "Description of the QueryReport instance.",
+      "$ref": "../../type/basic.json#/definitions/markdown"
+    },
+    "reportType": {
+      "description": "Type/category of this report (e.g. 'Daily', 'Adhoc').",
+      "type": "string"
+    },
+    "sourceUrl": {
+      "description": "Link to this report in the source system.",
+      "$ref": "../../type/basic.json#/definitions/sourceUrl"
+    },
+    "owners": {
+      "description": "Owners of this QueryReport.",
+      "$ref": "../../type/entityReferenceList.json",
+      "default": null
+    },
+    "tags": {
+      "description": "Tags for this QueryReport.",
+      "type": "array",
+      "items": {
+        "$ref": "../../type/tagLabel.json"
+      },
+      "default": null
+    },
+    "domains": {
+      "description": "Fully qualified names of the domains the QueryReport belongs to.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dataProducts": {
+      "description": "List of fully qualified names of data products this entity is part of.",
+      "type": "array",
+      "items": {
+        "$ref": "../../type/basic.json#/definitions/fullyQualifiedEntityName"
+      }
+    },
+    "extension": {
+      "description": "Entity extension data with custom attributes added to the entity.",
+      "$ref": "../../type/basic.json#/definitions/entityExtension"
+    }
+  },
+  "required": ["name"],
+  "additionalProperties": false
+}

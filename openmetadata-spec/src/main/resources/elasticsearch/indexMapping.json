@@ -307,6 +307,17 @@
     ],
     "childAliases": []
   },
+  "queryReport": {
+    "indexName": "query_report_search_index",
+    "indexMappingFile": "/elasticsearch/%s/query_report_index_mapping.json",
+    "alias": "queryReport",
+    "parentAliases": [
+      "all",
+      "dataAsset",
+      "dataAssetEmbeddings"
+    ],
+    "childAliases": []
+  },
   "glossary": {
     "indexName": "glossary_search_index",
     "indexMappingFile": "/elasticsearch/%s/glossary_index_mapping.json",

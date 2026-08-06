@@ -57,4 +57,5 @@ export enum SearchIndex {
   SPREADSHEET = 'spreadsheet',
   WORKSHEET = 'worksheet',
   INSTANCE_CODE = 'instanceCode',
+  QUERY_REPORT = 'queryReport',
 }

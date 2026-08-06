@@ -16,13 +16,14 @@ import { Operation } from 'fast-json-patch';
 import { PagingResponse } from 'Models';
 import { QueryVote } from '../components/Database/TableQueries/TableQueries.interface';
 import { CreateQuery } from '../generated/api/data/createQuery';
-import { Query } from '../generated/entity/data/query';
+import { EntityReference, Query } from '../generated/entity/data/query';
 import { ListParams } from '../interface/API.interface';
 import { getEncodedFqn } from '../utils/StringsUtils';
 import APIClient from './index';
 
 export type ListQueriesParams = ListParams & {
   entityId?: string;
+  entityType?: string;
 };
 
 export type QueryByIdParams = Pick<ListParams, 'fields' | 'include'>;
@@ -82,6 +83,18 @@ export const updateQueryVote = async (id: string, data: QueryVote) => {
 export const deleteQuery = async (id: string) => {
   const response = await APIClient.delete<AxiosResponse<Query>>(
     `${BASE_URL}/${id}`
+  );
+
+  return response.data;
+};
+
+export const addQueryUsage = async (
+  id: string,
+  entityRefs: EntityReference[]
+) => {
+  const response = await APIClient.put<EntityReference[], AxiosResponse<Query>>(
+    `${BASE_URL}/${id}/usage`,
+    entityRefs
   );
 
   return response.data;

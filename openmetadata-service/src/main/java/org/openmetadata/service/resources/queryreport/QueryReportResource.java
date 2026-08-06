@@ -1,0 +1,529 @@
+/*
+ *  Copyright 2021 Collate
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+package org.openmetadata.service.resources.queryreport;
+
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.json.JsonPatch;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.DefaultValue;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.core.UriInfo;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+import org.openmetadata.schema.api.VoteRequest;
+import org.openmetadata.schema.api.data.CreateQueryReport;
+import org.openmetadata.schema.api.data.RestoreEntity;
+import org.openmetadata.schema.entity.data.QueryReport;
+import org.openmetadata.schema.type.ChangeEvent;
+import org.openmetadata.schema.type.EntityHistory;
+import org.openmetadata.schema.type.Include;
+import org.openmetadata.schema.type.MetadataOperation;
+import org.openmetadata.schema.utils.ResultList;
+import org.openmetadata.service.Entity;
+import org.openmetadata.service.jdbi3.ListFilter;
+import org.openmetadata.service.jdbi3.QueryReportRepository;
+import org.openmetadata.service.limits.Limits;
+import org.openmetadata.service.resources.Collection;
+import org.openmetadata.service.resources.EntityResource;
+import org.openmetadata.service.security.Authorizer;
+
+@Path("/v1/queryReports")
+@Tag(
+    name = "QueryReports",
+    description =
+        "`QueryReport`s hold metadata about a report, along with the SQL Queries associated "
+            + "with it (linked via the Query entity's usage API).")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+@Collection(name = "queryReports")
+public class QueryReportResource extends EntityResource<QueryReport, QueryReportRepository> {
+  public static final String COLLECTION_PATH = "/v1/queryReports/";
+  private final QueryReportMapper mapper = new QueryReportMapper();
+  static final String FIELDS = "owners,followers,tags,domains,dataProducts,extension";
+
+  public QueryReportResource(Authorizer authorizer, Limits limits) {
+    super(Entity.QUERY_REPORT, authorizer, limits);
+  }
+
+  @Override
+  protected List<MetadataOperation> getEntitySpecificOperations() {
+    return Collections.emptyList();
+  }
+
+  public static class QueryReportList extends ResultList<QueryReport> {
+    /* Required for serde */
+  }
+
+  @GET
+  @Operation(
+      operationId = "listQueryReports",
+      summary = "List QueryReports",
+      description =
+          "Get a list of QueryReports. Use `fields` parameter to get only necessary fields.",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "List of QueryReports",
+            content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = QueryReportList.class)))
+      })
+  public ResultList<QueryReport> list(
+      @Context UriInfo uriInfo,
+      @Context SecurityContext securityContext,
+      @Parameter(
+              description = "Fields requested in the returned resource",
+              schema = @Schema(type = "string", example = FIELDS))
+          @QueryParam("fields")
+          String fieldsParam,
+      @DefaultValue("10") @QueryParam("limit") int limitParam,
+      @Parameter(
+              description = "Returns list of QueryReports before this cursor",
+              schema = @Schema(type = "string"))
+          @QueryParam("before")
+          String before,
+      @Parameter(
+              description = "Returns list of QueryReports after this cursor",
+              schema = @Schema(type = "string"))
+          @QueryParam("after")
+          String after,
+      @Parameter(
+              description = "Include all, deleted, or non-deleted entities.",
+              schema = @Schema(implementation = Include.class))
+          @QueryParam("include")
+          @DefaultValue("non-deleted")
+          Include include) {
+    ListFilter filter = new ListFilter(include);
+    return super.listInternal(
+        uriInfo, securityContext, fieldsParam, filter, limitParam, before, after);
+  }
+
+  @GET
+  @Path("/{id}")
+  @Operation(
+      operationId = "getQueryReportByID",
+      summary = "Get a QueryReport by Id",
+      description = "Get a QueryReport by `Id`.",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "The QueryReport",
+            content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = QueryReport.class))),
+        @ApiResponse(
+            responseCode = "404",
+            description = "QueryReport for instance {id} is not found")
+      })
+  public QueryReport get(
+      @Context UriInfo uriInfo,
+      @Context SecurityContext securityContext,
+      @Parameter(description = "Id of the QueryReport", schema = @Schema(type = "UUID"))
+          @PathParam("id")
+          UUID id,
+      @Parameter(
+              description = "Fields requested in the returned resource",
+              schema = @Schema(type = "string", example = FIELDS))
+          @QueryParam("fields")
+          String fieldsParam,
+      @Parameter(
+              description = "Include all, deleted, or non-deleted entities.",
+              schema = @Schema(implementation = Include.class))
+          @QueryParam("include")
+          @DefaultValue("non-deleted")
+          Include include) {
+    return getInternal(uriInfo, securityContext, id, fieldsParam, include, null);
+  }
+
+  @GET
+  @Path("/name/{fqn}")
+  @Operation(
+      operationId = "getQueryReportByFQN",
+      summary = "Get a QueryReport by fully qualified name.",
+      description = "Get a QueryReport by fully qualified name.",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "The QueryReport",
+            content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = QueryReport.class))),
+        @ApiResponse(
+            responseCode = "404",
+            description = "QueryReport for instance {fqn} is not found")
+      })
+  public QueryReport getByName(
+      @Context UriInfo uriInfo,
+      @Parameter(
+              description = "Fully qualified name of the QueryReport",
+              schema = @Schema(type = "string"))
+          @PathParam("fqn")
+          String fqn,
+      @Context SecurityContext securityContext,
+      @Parameter(
+              description = "Fields requested in the returned resource",
+              schema = @Schema(type = "string", example = FIELDS))
+          @QueryParam("fields")
+          String fieldsParam,
+      @Parameter(
+              description = "Include all, deleted, or non-deleted entities.",
+              schema = @Schema(implementation = Include.class))
+          @QueryParam("include")
+          @DefaultValue("non-deleted")
+          Include include) {
+    return getByNameInternal(uriInfo, securityContext, fqn, fieldsParam, include, null);
+  }
+
+  @GET
+  @Path("/{id}/versions")
+  @Operation(
+      operationId = "listAllQueryReportVersion",
+      summary = "List QueryReport versions",
+      description = "Get a list of all the versions of a QueryReport identified by `id`",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "List of QueryReport versions",
+            content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = EntityHistory.class)))
+      })
+  public EntityHistory listVersions(
+      @Context UriInfo uriInfo,
+      @Context SecurityContext securityContext,
+      @Parameter(description = "Id of the QueryReport", schema = @Schema(type = "UUID"))
+          @PathParam("id")
+          UUID id) {
+    return super.listVersionsInternal(securityContext, id);
+  }
+
+  @GET
+  @Path("/{id}/versions/{version}")
+  @Operation(
+      operationId = "getSpecificQueryReportVersion",
+      summary = "Get a version of the QueryReport",
+      description = "Get a version of the QueryReport by given `id`",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "QueryReport Version",
+            content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = QueryReport.class))),
+        @ApiResponse(
+            responseCode = "404",
+            description = "QueryReport for instance {id} and version {version} is not found")
+      })
+  public QueryReport getVersion(
+      @Context UriInfo uriInfo,
+      @Context SecurityContext securityContext,
+      @Parameter(description = "Id of the QueryReport", schema = @Schema(type = "UUID"))
+          @PathParam("id")
+          UUID id,
+      @Parameter(
+              description = "QueryReport version number in the form `major`.`minor`",
+              schema = @Schema(type = "string", example = "0.1 or 1.1"))
+          @PathParam("version")
+          String version) {
+    return super.getVersionInternal(securityContext, id, version);
+  }
+
+  @POST
+  @Operation(
+      operationId = "createQueryReport",
+      summary = "Create a QueryReport",
+      description = "Create a new QueryReport.",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "The QueryReport",
+            content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = QueryReport.class))),
+        @ApiResponse(responseCode = "400", description = "Bad request")
+      })
+  public Response create(
+      @Context UriInfo uriInfo,
+      @Context SecurityContext securityContext,
+      @Valid CreateQueryReport create) {
+    QueryReport queryReport =
+        mapper.createToEntity(create, securityContext.getUserPrincipal().getName());
+    return create(uriInfo, securityContext, queryReport);
+  }
+
+  @PUT
+  @Operation(
+      operationId = "createOrUpdateQueryReport",
+      summary = "Create or update a QueryReport",
+      description =
+          "Create a new QueryReport, if it does not exist or update an existing QueryReport.",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "The QueryReport",
+            content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = QueryReport.class))),
+        @ApiResponse(responseCode = "400", description = "Bad request")
+      })
+  public Response createOrUpdate(
+      @Context UriInfo uriInfo,
+      @Context SecurityContext securityContext,
+      @Valid CreateQueryReport create) {
+    QueryReport queryReport =
+        mapper.createToEntity(create, securityContext.getUserPrincipal().getName());
+    return createOrUpdate(uriInfo, securityContext, queryReport);
+  }
+
+  @PATCH
+  @Path("/{id}")
+  @Operation(
+      operationId = "patchQueryReport",
+      summary = "Update a QueryReport",
+      description = "Update an existing QueryReport using JsonPatch.",
+      externalDocs =
+          @ExternalDocumentation(
+              description = "JsonPatch RFC",
+              url = "https://tools.ietf.org/html/rfc6902"))
+  @Consumes(MediaType.APPLICATION_JSON_PATCH_JSON)
+  public Response patchQueryReport(
+      @Context UriInfo uriInfo,
+      @Context SecurityContext securityContext,
+      @Parameter(description = "Id of the QueryReport", schema = @Schema(type = "UUID"))
+          @PathParam("id")
+          UUID id,
+      @RequestBody(
+              description = "JsonPatch with array of operations",
+              content = @Content(mediaType = MediaType.APPLICATION_JSON_PATCH_JSON))
+          JsonPatch patch) {
+    return patchInternal(uriInfo, securityContext, id, patch);
+  }
+
+  @PATCH
+  @Path("/name/{fqn}")
+  @Operation(
+      operationId = "patchQueryReportByFqn",
+      summary = "Update a QueryReport using name.",
+      description = "Update an existing QueryReport using JsonPatch.",
+      externalDocs =
+          @ExternalDocumentation(
+              description = "JsonPatch RFC",
+              url = "https://tools.ietf.org/html/rfc6902"))
+  @Consumes(MediaType.APPLICATION_JSON_PATCH_JSON)
+  public Response patchQueryReport(
+      @Context UriInfo uriInfo,
+      @Context SecurityContext securityContext,
+      @Parameter(description = "Name of the QueryReport", schema = @Schema(type = "string"))
+          @PathParam("fqn")
+          String fqn,
+      @RequestBody(
+              description = "JsonPatch with array of operations",
+              content = @Content(mediaType = MediaType.APPLICATION_JSON_PATCH_JSON))
+          JsonPatch patch) {
+    return patchInternal(uriInfo, securityContext, fqn, patch);
+  }
+
+  @PUT
+  @Path("/{id}/followers")
+  @Operation(
+      operationId = "addFollowerToQueryReport",
+      summary = "Add a follower",
+      description = "Add a user identified by `userId` as follower of this QueryReport.",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "OK",
+            content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ChangeEvent.class))),
+        @ApiResponse(
+            responseCode = "404",
+            description = "QueryReport for instance {id} is not found")
+      })
+  public Response addFollower(
+      @Context UriInfo uriInfo,
+      @Context SecurityContext securityContext,
+      @Parameter(description = "Id of the QueryReport", schema = @Schema(type = "UUID"))
+          @PathParam("id")
+          UUID id,
+      @Parameter(
+              description = "Id of the user to be added as follower",
+              schema = @Schema(type = "UUID"))
+          UUID userId) {
+    return repository
+        .addFollower(securityContext.getUserPrincipal().getName(), id, userId)
+        .toResponse();
+  }
+
+  @DELETE
+  @Path("/{id}/followers/{userId}")
+  @Operation(
+      summary = "Remove a follower",
+      description = "Remove the user identified `userId` as a follower of the QueryReport.",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "OK",
+            content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ChangeEvent.class)))
+      })
+  public Response deleteFollower(
+      @Context UriInfo uriInfo,
+      @Context SecurityContext securityContext,
+      @Parameter(description = "Id of the QueryReport", schema = @Schema(type = "UUID"))
+          @PathParam("id")
+          UUID id,
+      @Parameter(
+              description = "Id of the user being removed as follower",
+              schema = @Schema(type = "string"))
+          @PathParam("userId")
+          String userId) {
+    return repository
+        .deleteFollower(securityContext.getUserPrincipal().getName(), id, UUID.fromString(userId))
+        .toResponse();
+  }
+
+  @PUT
+  @Path("/{id}/vote")
+  @Operation(
+      operationId = "updateVoteForQueryReport",
+      summary = "Update Vote for a QueryReport",
+      description = "Update vote for a QueryReport",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "OK",
+            content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ChangeEvent.class))),
+        @ApiResponse(
+            responseCode = "404",
+            description = "QueryReport for instance {id} is not found")
+      })
+  public Response updateVote(
+      @Context UriInfo uriInfo,
+      @Context SecurityContext securityContext,
+      @Parameter(description = "Id of the Entity", schema = @Schema(type = "UUID")) @PathParam("id")
+          UUID id,
+      @Valid VoteRequest request) {
+    return repository
+        .updateVote(securityContext.getUserPrincipal().getName(), id, request)
+        .toResponse();
+  }
+
+  @DELETE
+  @Path("/{id}")
+  @Operation(
+      operationId = "deleteQueryReport",
+      summary = "Delete a QueryReport by id",
+      description = "Delete a QueryReport by `id`.",
+      responses = {
+        @ApiResponse(responseCode = "200", description = "OK"),
+        @ApiResponse(
+            responseCode = "404",
+            description = "QueryReport for instance {id} is not found")
+      })
+  public Response delete(
+      @Context UriInfo uriInfo,
+      @Context SecurityContext securityContext,
+      @Parameter(description = "Hard delete the entity. (Default = `false`)")
+          @QueryParam("hardDelete")
+          @DefaultValue("false")
+          boolean hardDelete,
+      @Parameter(description = "Id of the QueryReport", schema = @Schema(type = "UUID"))
+          @PathParam("id")
+          UUID id) {
+    return delete(uriInfo, securityContext, id, false, hardDelete);
+  }
+
+  @DELETE
+  @Path("/name/{fqn}")
+  @Operation(
+      operationId = "deleteQueryReportByFQN",
+      summary = "Delete a QueryReport by fully qualified name",
+      description = "Delete a QueryReport by `fullyQualifiedName`.",
+      responses = {
+        @ApiResponse(responseCode = "200", description = "OK"),
+        @ApiResponse(
+            responseCode = "404",
+            description = "QueryReport for instance {fqn} is not found")
+      })
+  public Response delete(
+      @Context UriInfo uriInfo,
+      @Context SecurityContext securityContext,
+      @Parameter(description = "Hard delete the entity. (Default = `false`)")
+          @QueryParam("hardDelete")
+          @DefaultValue("false")
+          boolean hardDelete,
+      @Parameter(
+              description = "Fully qualified name of the QueryReport",
+              schema = @Schema(type = "string"))
+          @PathParam("fqn")
+          String fqn) {
+    return deleteByName(uriInfo, securityContext, fqn, false, hardDelete);
+  }
+
+  @PUT
+  @Path("/restore")
+  @Operation(
+      operationId = "restoreQueryReport",
+      summary = "Restore a soft deleted QueryReport.",
+      description = "Restore a soft deleted QueryReport.",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Successfully restored the QueryReport.",
+            content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = QueryReport.class)))
+      })
+  public Response restore(
+      @Context UriInfo uriInfo,
+      @Context SecurityContext securityContext,
+      @Valid RestoreEntity restore) {
+    return restoreEntity(uriInfo, securityContext, restore.getId());
+  }
+}
