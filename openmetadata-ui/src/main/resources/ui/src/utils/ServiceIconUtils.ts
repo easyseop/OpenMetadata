@@ -55,6 +55,7 @@ import timescale from '../assets/img/service-icon-timescale.png';
 import trino from '../assets/img/service-icon-trino.png';
 import unitycatalog from '../assets/img/service-icon-unitycatalog.svg';
 import vertica from '../assets/img/service-icon-vertica.png';
+import sybaseIcon from '../assets/svg/service-icon-sybase.svg';
 import teradata from '../assets/svg/teradata.svg';
 
 // Messaging services
@@ -183,6 +184,7 @@ const SERVICE_ICON_LOADERS: Record<string, string> = {
   questdb: questdb,
   domodatabase: domo,
   customdatabase: databasedefault,
+  sybase: sybaseIcon,
 
   // Messaging services
   kafka: kafka,

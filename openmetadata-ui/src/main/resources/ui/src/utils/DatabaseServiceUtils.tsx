@@ -64,6 +64,7 @@ import singleStoreConnection from '../jsons/connectionSchemas/connections/databa
 import snowflakeConnection from '../jsons/connectionSchemas/connections/database/snowflakeConnection.json';
 import sqliteConnection from '../jsons/connectionSchemas/connections/database/sqliteConnection.json';
 import starrocksConnection from '../jsons/connectionSchemas/connections/database/starrocksConnection.json';
+import sybaseConnection from '../jsons/connectionSchemas/connections/database/sybaseConnection.json';
 import synapseConnection from '../jsons/connectionSchemas/connections/database/synapseConnection.json';
 import teradataConnection from '../jsons/connectionSchemas/connections/database/teradataConnection.json';
 import timescaleConnection from '../jsons/connectionSchemas/connections/database/timescaleConnection.json';
@@ -249,6 +250,8 @@ export const getDatabaseConfig = (type: DatabaseServiceType) => {
 
       break;
     }
+    case DatabaseServiceType.Sybase: {
+      schema = sybaseConnection;
     case DatabaseServiceType.DomoDatabase: {
       schema = domoDatabaseConnection;
 

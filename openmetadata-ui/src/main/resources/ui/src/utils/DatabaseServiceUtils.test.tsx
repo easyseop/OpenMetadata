@@ -16,6 +16,7 @@ import { OperationPermission } from '../context/PermissionProvider/PermissionPro
 import { DatabaseServiceType } from '../generated/entity/services/databaseService';
 import bigQueryConnection from '../jsons/connectionSchemas/connections/database/bigQueryConnection.json';
 import customDatabaseConnection from '../jsons/connectionSchemas/connections/database/customDatabaseConnection.json';
+import sybaseConnection from '../jsons/connectionSchemas/connections/database/sybaseConnection.json';
 import mysqlConnection from '../jsons/connectionSchemas/connections/database/mysqlConnection.json';
 import postgresConnection from '../jsons/connectionSchemas/connections/database/postgresConnection.json';
 import snowflakeConnection from '../jsons/connectionSchemas/connections/database/snowflakeConnection.json';
@@ -181,6 +182,15 @@ describe('getDatabaseConfig', () => {
     expect(result).toHaveProperty('schema');
     expect(result).toHaveProperty('uiSchema');
     expect(result.schema).toStrictEqual(customDatabaseConnection);
+    expect(result.uiSchema).toEqual(COMMON_UI_SCHEMA);
+  });
+
+  it('should return correct schema and UI schema for Sybase', () => {
+    const result = getDatabaseConfig(DatabaseServiceType.Sybase);
+
+    expect(result).toHaveProperty('schema');
+    expect(result).toHaveProperty('uiSchema');
+    expect(result.schema).toStrictEqual(sybaseConnection);
     expect(result.uiSchema).toEqual(COMMON_UI_SCHEMA);
   });
 

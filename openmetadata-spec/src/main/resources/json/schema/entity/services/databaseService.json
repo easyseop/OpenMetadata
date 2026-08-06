@@ -48,6 +48,7 @@
         "DomoDatabase",
         "QueryLog",
         "CustomDatabase",
+        "Sybase",
         "Dbt",
         "SapHana",
         "SapSuccessFactors",
@@ -173,6 +174,9 @@
         },
         {
           "name": "CustomDatabase"
+        },
+        {
+          "name": "Sybase"
         },
         {
           "name": "Dbt"
@@ -359,6 +363,9 @@
             },
             {
               "$ref": "./connections/database/customDatabaseConnection.json"
+            },
+            {
+              "$ref": "./connections/database/sybaseConnection.json"
             },
             {
               "$ref": "./connections/database/sapHanaConnection.json"
