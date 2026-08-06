@@ -311,6 +311,9 @@ export const ROUTES = {
   METRICS: '/metrics',
   ADD_METRIC: '/metrics/add-metric',
 
+  // InstanceCode Entity
+  INSTANCE_CODES: '/instanceCodes',
+  INSTANCE_CODE_GROUP: `/instanceCodes/group/${PLACEHOLDER_ROUTE_FQN}`,
   // Entity Import
   ENTITY_IMPORT: `/bulk/import/${PLACEHOLDER_ROUTE_ENTITY_TYPE}/${PLACEHOLDER_ROUTE_FQN}`,
 

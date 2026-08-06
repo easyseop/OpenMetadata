@@ -108,6 +108,7 @@ import org.openmetadata.schema.entity.data.Directory;
 import org.openmetadata.schema.entity.data.File;
 import org.openmetadata.schema.entity.data.Glossary;
 import org.openmetadata.schema.entity.data.GlossaryTerm;
+import org.openmetadata.schema.entity.data.InstanceCode;
 import org.openmetadata.schema.entity.data.Metric;
 import org.openmetadata.schema.entity.data.MlModel;
 import org.openmetadata.schema.entity.data.Pipeline;
@@ -270,6 +271,8 @@ public interface CollectionDAO {
 
   @CreateSqlObject
   MetricDAO metricDAO();
+  @CreateSqlObject
+  InstanceCodeDAO instanceCodeDAO();
 
   @CreateSqlObject
   ChartDAO chartDAO();
@@ -4297,6 +4300,15 @@ public interface CollectionDAO {
                 + "ORDER BY customUnitOfMeasurement",
         connectionType = POSTGRES)
     List<String> getDistinctCustomUnitsOfMeasurement();
+  interface InstanceCodeDAO extends EntityDAO<InstanceCode> {
+    @Override
+    default String getTableName() {
+      return "instance_code_entity";
+    }
+    @Override
+    default Class<InstanceCode> getEntityClass() {
+      return InstanceCode.class;
+    }
   }
 
   interface MlModelDAO extends EntityDAO<MlModel> {

@@ -87,6 +87,7 @@ export enum EntityType {
   SPREADSHEET = 'spreadsheet',
   WORKSHEET = 'worksheet',
   NOTIFICATION_TEMPLATE = 'notificationTemplate',
+  INSTANCE_CODE = 'instanceCode',
 }
 
 export enum EntityLineageDirection {

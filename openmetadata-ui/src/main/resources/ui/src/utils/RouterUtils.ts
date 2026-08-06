@@ -485,6 +485,12 @@ export const getDomainVersionsPath = (domainFqn: string, version: string) => {
   return path;
 };
 
+export const getInstanceCodeGroupPath = (codeGroup: string) => {
+  return ROUTES.INSTANCE_CODE_GROUP.replace(
+    PLACEHOLDER_ROUTE_FQN,
+    getEncodedFqn(codeGroup)
+  );
+};
 export const getGlossaryVersionsPath = (id: string, version: string) => {
   let path = ROUTES.GLOSSARY_VERSION;
   path = path

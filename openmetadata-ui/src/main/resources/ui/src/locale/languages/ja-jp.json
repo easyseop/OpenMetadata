@@ -2371,7 +2371,14 @@
         "your-entity": "あなたの {{entity}}",
         "z-to-a": "ZからA",
         "zoom-in": "ズームイン",
-        "zoom-out": "ズームアウト"
+        "zoom-out": "ズームアウト",
+        "code-group": "Code Group",
+        "code-name": "Code Name",
+        "code-value": "Code Value",
+        "instance-code": "Instance Code",
+        "instance-code-lowercase-plural": "instance codes",
+        "instance-code-plural": "Instance Codes",
+        "sort-order": "Sort Order"
     },
     "message": {
         "access-block-time-message": "最大回数のログイン失敗後、一定時間（ミリ秒）アクセスがブロックされます。",
@@ -3341,7 +3348,9 @@
         "write-your-announcement-lowercase": "お知らせを入力してください",
         "write-your-description": "説明を入力してください",
         "write-your-text": "{{text}}を入力してください",
-        "you-can-also-set-up-the-metadata-ingestion": "メタデータ取り込みの設定も行えます。"
+        "you-can-also-set-up-the-metadata-ingestion": "メタデータ取り込みの設定も行えます。",
+        "instance-code-description": "Manage common/reference codes used as shared master data across the platform.",
+        "instance-code-group-description": "The {{codeGroupName}} code group contains {{count}} registered code(s)."
     },
     "server": {
         "account-verify-success": "メールアドレスの認証に成功しました",

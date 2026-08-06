@@ -2371,7 +2371,14 @@
         "your-entity": "{{entity}} شما",
         "z-to-a": "Z'den A'ya",
         "zoom-in": "بزرگنمایی",
-        "zoom-out": "کوچک‌نمایی"
+        "zoom-out": "کوچک‌نمایی",
+        "code-group": "Code Group",
+        "code-name": "Code Name",
+        "code-value": "Code Value",
+        "instance-code": "Instance Code",
+        "instance-code-lowercase-plural": "instance codes",
+        "instance-code-plural": "Instance Codes",
+        "sort-order": "Sort Order"
     },
     "message": {
         "access-block-time-message": "دسترسی برای مدت میلی‌ثانیه‌ها بعد از حداکثر تلاش‌های ناموفق ورود، مسدود خواهد شد.",
@@ -3343,7 +3350,9 @@
         "write-your-announcement-lowercase": "اعلان خود را بنویسید",
         "write-your-description": "توضیحات خود را بنویسید",
         "write-your-text": "نوشتن {{text}} خود",
-        "you-can-also-set-up-the-metadata-ingestion": "همچنین می‌توانید ورود متادیتا را راه‌اندازی کنید."
+        "you-can-also-set-up-the-metadata-ingestion": "همچنین می‌توانید ورود متادیتا را راه‌اندازی کنید.",
+        "instance-code-description": "Manage common/reference codes used as shared master data across the platform.",
+        "instance-code-group-description": "The {{codeGroupName}} code group contains {{count}} registered code(s)."
     },
     "server": {
         "account-verify-success": "ایمیل با موفقیت تأیید شد.",

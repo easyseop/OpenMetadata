@@ -2371,7 +2371,14 @@
         "your-entity": "เอนทิตีของคุณ {{entity}}",
         "z-to-a": "Z ถึง A",
         "zoom-in": "ขยายเข้า",
-        "zoom-out": "ขยายออก"
+        "zoom-out": "ขยายออก",
+        "code-group": "Code Group",
+        "code-name": "Code Name",
+        "code-value": "Code Value",
+        "instance-code": "Instance Code",
+        "instance-code-lowercase-plural": "instance codes",
+        "instance-code-plural": "Instance Codes",
+        "sort-order": "Sort Order"
     },
     "message": {
         "access-block-time-message": "การเข้าถึงจะถูกบล็อกเป็นมิลลิวินาทีหลังจากมีความพยายามเข้าสู่ระบบที่ล้มเหลวสูงสุด",
@@ -3342,7 +3349,9 @@
         "write-your-announcement-lowercase": "เขียนประกาศของคุณ",
         "write-your-description": "เขียนคำอธิบายของคุณ",
         "write-your-text": "เขียน {{text}} ของคุณ",
-        "you-can-also-set-up-the-metadata-ingestion": "คุณยังสามารถตั้งค่าการนำเข้าข้อมูลเมตาได้"
+        "you-can-also-set-up-the-metadata-ingestion": "คุณยังสามารถตั้งค่าการนำเข้าข้อมูลเมตาได้",
+        "instance-code-description": "Manage common/reference codes used as shared master data across the platform.",
+        "instance-code-group-description": "The {{codeGroupName}} code group contains {{count}} registered code(s)."
     },
     "server": {
         "account-verify-success": "ยืนยันอีเมลสำเร็จแล้ว",

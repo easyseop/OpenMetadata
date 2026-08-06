@@ -2371,7 +2371,14 @@
         "your-entity": "तुमचे {{entity}}",
         "z-to-a": "ज ते अ",
         "zoom-in": "झूम इन",
-        "zoom-out": "झूम आउट"
+        "zoom-out": "झूम आउट",
+        "code-group": "Code Group",
+        "code-name": "Code Name",
+        "code-value": "Code Value",
+        "instance-code": "Instance Code",
+        "instance-code-lowercase-plural": "instance codes",
+        "instance-code-plural": "Instance Codes",
+        "sort-order": "Sort Order"
     },
     "message": {
         "access-block-time-message": "कमाल अयशस्वी लॉगिन प्रयत्नांनंतर प्रवेश काही काळासाठी अवरोधित केला जाईल.",
@@ -3341,7 +3348,9 @@
         "write-your-announcement-lowercase": "तुमची घोषणा लिहा",
         "write-your-description": "तुमचे वर्णन लिहा",
         "write-your-text": "तुमचा {{text}} लिहा",
-        "you-can-also-set-up-the-metadata-ingestion": "तुम्ही मेटाडेटा अंतर्ग्रहण देखील सेट करू शकता."
+        "you-can-also-set-up-the-metadata-ingestion": "तुम्ही मेटाडेटा अंतर्ग्रहण देखील सेट करू शकता.",
+        "instance-code-description": "Manage common/reference codes used as shared master data across the platform.",
+        "instance-code-group-description": "The {{codeGroupName}} code group contains {{count}} registered code(s)."
     },
     "server": {
         "account-verify-success": "ईमेल यशस्वीरित्या सत्यापित केले",

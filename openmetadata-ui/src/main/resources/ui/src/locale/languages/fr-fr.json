@@ -2371,7 +2371,14 @@
         "your-entity": "Votre {{entity}}",
         "z-to-a": "Z à A",
         "zoom-in": "Zoom Avant",
-        "zoom-out": "Zoom Arrière"
+        "zoom-out": "Zoom Arrière",
+        "code-group": "Code Group",
+        "code-name": "Code Name",
+        "code-value": "Code Value",
+        "instance-code": "Instance Code",
+        "instance-code-lowercase-plural": "instance codes",
+        "instance-code-plural": "Instance Codes",
+        "sort-order": "Sort Order"
     },
     "message": {
         "access-block-time-message": "Nombre de millisecondes pendant lesquelles l'accès sera bloqué après le maximum de tentatives infructueuses.",
@@ -3341,7 +3348,9 @@
         "write-your-announcement-lowercase": "écrire votre annonce",
         "write-your-description": "Rédigez votre description",
         "write-your-text": "Ecrivez votre {{text}}",
-        "you-can-also-set-up-the-metadata-ingestion": "Vous pouvez également configurer l'ingestion de métadonnées."
+        "you-can-also-set-up-the-metadata-ingestion": "Vous pouvez également configurer l'ingestion de métadonnées.",
+        "instance-code-description": "Manage common/reference codes used as shared master data across the platform.",
+        "instance-code-group-description": "The {{codeGroupName}} code group contains {{count}} registered code(s)."
     },
     "server": {
         "account-verify-success": "Email vérifié avec succès",
