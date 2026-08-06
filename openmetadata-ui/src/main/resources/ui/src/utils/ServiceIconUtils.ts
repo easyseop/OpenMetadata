@@ -56,6 +56,7 @@ import trino from '../assets/img/service-icon-trino.png';
 import unitycatalog from '../assets/img/service-icon-unitycatalog.svg';
 import vertica from '../assets/img/service-icon-vertica.png';
 import sybaseIcon from '../assets/svg/service-icon-sybase.svg';
+import tiberoIcon from '../assets/svg/service-icon-tibero.svg';
 import teradata from '../assets/svg/teradata.svg';
 
 // Messaging services
@@ -185,6 +186,7 @@ const SERVICE_ICON_LOADERS: Record<string, string> = {
   domodatabase: domo,
   customdatabase: databasedefault,
   sybase: sybaseIcon,
+  tibero: tiberoIcon,
 
   // Messaging services
   kafka: kafka,

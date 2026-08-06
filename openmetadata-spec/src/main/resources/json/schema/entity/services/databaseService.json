@@ -12,7 +12,9 @@
   "definitions": {
     "databaseServiceType": {
       "description": "Type of database service such as MySQL, BigQuery, Snowflake, Redshift, Postgres...",
-      "javaInterfaces": ["org.openmetadata.schema.EnumInterface"],
+      "javaInterfaces": [
+        "org.openmetadata.schema.EnumInterface"
+      ],
       "type": "string",
       "enum": [
         "BigQuery",
@@ -73,7 +75,8 @@
         "BurstIQ",
         "Informix",
         "Iomete",
-        "QuestDB"
+        "QuestDB",
+        "Tibero"
       ],
       "javaEnums": [
         {
@@ -252,6 +255,9 @@
         },
         {
           "name": "QuestDB"
+        },
+        {
+          "name": "Tibero"
         }
       ]
     },
@@ -435,6 +441,9 @@
             },
             {
               "$ref": "./connections/database/questdbConnection.json"
+            },
+            {
+              "$ref": "./connections/database/tiberoConnection.json"
             }
           ]
         }
@@ -531,23 +540,27 @@
       "description": "Status of the entity.",
       "$ref": "../../type/status.json"
     },
-    "dataProducts" : {
+    "dataProducts": {
       "description": "List of data products this entity is part of.",
-      "$ref" : "../../type/entityReferenceList.json"
+      "$ref": "../../type/entityReferenceList.json"
     },
     "dataContract": {
       "description": "Reference to the data contract for this entity.",
       "$ref": "../../type/entityReference.json"
     },
-    "domains" : {
+    "domains": {
       "description": "Domains the Database service belongs to.",
       "$ref": "../../type/entityReferenceList.json"
     },
-    "ingestionRunner" : {
+    "ingestionRunner": {
       "description": "The ingestion agent responsible for executing the ingestion pipeline.",
       "$ref": "../../type/entityReference.json"
     }
   },
-  "required": ["id", "name", "serviceType"],
+  "required": [
+    "id",
+    "name",
+    "serviceType"
+  ],
   "additionalProperties": false
 }
