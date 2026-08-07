@@ -104,6 +104,11 @@ const SchemaEditor = ({
     value: string
   ): void => {
     if (isComposingRef.current) {
+      // react-codemirror2 uses a controlled editor. If its value prop is not
+      // advanced here, CodeMirror immediately restores the pre-composition
+      // value. Keep only the editor's local state in sync while composing;
+      // the parent onChange remains deferred until compositionend.
+      setInternalValue(getSchemaEditorValue(value));
       return;
     }
     setInternalValue(getSchemaEditorValue(value));

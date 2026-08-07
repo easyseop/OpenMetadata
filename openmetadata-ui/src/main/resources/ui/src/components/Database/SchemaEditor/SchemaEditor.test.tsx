@@ -17,11 +17,14 @@ import SchemaEditor from './SchemaEditor';
 
 const mockOnChange = jest.fn();
 const mockOnCopyToClipBoard = jest.fn();
+const mockWrapperElement = document.createElement('div');
+let mockEditorValue = '';
 
 const mockEditor = {
   refresh: jest.fn(),
   scrollTo: jest.fn(),
-  getWrapperElement: jest.fn().mockReturnValue({ remove: jest.fn() }),
+  getValue: jest.fn(() => mockEditorValue),
+  getWrapperElement: jest.fn().mockReturnValue(mockWrapperElement),
 };
 
 jest.mock('../../../constants/constants', () => ({
@@ -29,7 +32,7 @@ jest.mock('../../../constants/constants', () => ({
 }));
 
 jest.mock('../../../utils/SchemaEditor.utils', () => ({
-  getSchemaEditorValue: jest.fn().mockReturnValue('test SQL query'),
+  getSchemaEditorValue: jest.fn().mockImplementation((value) => value ?? ''),
 }));
 
 jest.mock('../../../hooks/useClipBoard', () => ({
@@ -43,22 +46,28 @@ jest.mock('react-codemirror2', () => ({
   ...jest.requireActual('react-codemirror2'),
   Controlled: jest
     .fn()
-    .mockImplementation(({ value, onChange, editorDidMount }) => {
-      React.useEffect(() => {
-        editorDidMount?.(mockEditor);
-      }, []);
+    .mockImplementation(
+      ({ value, onBeforeChange, onChange, editorDidMount }) => {
+        React.useEffect(() => {
+          editorDidMount?.(mockEditor);
+        }, []);
 
-      return (
-        <div>
-          <span>{value}</span>
-          <input
-            data-testid="code-mirror-editor-input"
-            type="text"
-            onChange={onChange}
-          />
-        </div>
-      );
-    }),
+        return (
+          <div>
+            <span>{value}</span>
+            <input
+              data-testid="code-mirror-editor-input"
+              type="text"
+              onChange={(event) => {
+                mockEditorValue = event.target.value;
+                onBeforeChange?.(mockEditor, {}, event.target.value);
+                onChange?.(mockEditor, {}, event.target.value);
+              }}
+            />
+          </div>
+        );
+      }
+    ),
 }));
 
 let intersectionCallback: (entries: IntersectionObserverEntry[]) => void;
@@ -124,6 +133,7 @@ describe('SchemaEditor component test', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    mockEditorValue = '';
     // Set in beforeEach because jest.useRealTimers() restores the original
     // (undefined in JSDOM), clobbering a beforeAll assignment.
     window.requestAnimationFrame = jest
@@ -175,6 +185,34 @@ describe('SchemaEditor component test', () => {
     });
 
     expect(mockOnChange).toHaveBeenCalled();
+  });
+
+  it('Should keep local value during composition and notify on composition end', () => {
+    render(<SchemaEditor {...mockProps} />);
+    const input = screen.getByTestId('code-mirror-editor-input');
+
+    act(() => {
+      mockWrapperElement.dispatchEvent(
+        new CompositionEvent('compositionstart', { bubbles: true, data: 'ㅎ' })
+      );
+    });
+    fireEvent.change(input, { target: { value: '한글' } });
+
+    expect(screen.getByTestId('code-mirror-container')).toHaveTextContent(
+      '한글'
+    );
+    expect(mockOnChange).not.toHaveBeenCalled();
+
+    act(() => {
+      mockWrapperElement.dispatchEvent(
+        new CompositionEvent('compositionend', {
+          bubbles: true,
+          data: '한글',
+        })
+      );
+    });
+
+    expect(mockOnChange).toHaveBeenCalledWith('한글');
   });
 
   describe('refreshEditor prop', () => {
