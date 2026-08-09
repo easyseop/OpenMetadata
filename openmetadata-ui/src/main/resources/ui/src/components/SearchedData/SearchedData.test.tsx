@@ -15,16 +15,25 @@ import {
   getAllByTestId,
   getByTestId,
   getByText,
+  queryByTestId,
   render,
 } from '@testing-library/react';
+import { type PropsWithChildren } from 'react';
 import { MemoryRouter } from 'react-router';
+import { MAX_RESULT_HITS } from '../../constants/explore.constants';
 import { TAG_CONSTANT } from '../../constants/Tag.constants';
+import { EntityType } from '../../enums/entity.enum';
 import { SearchIndex } from '../../enums/search.enum';
 import SearchedData from './SearchedData';
 import { SearchedDataProps } from './SearchedData.interface';
 
+const TestWrapper = ({ children }: PropsWithChildren) => (
+  <MemoryRouter>{children}</MemoryRouter>
+);
+
 const mockData: SearchedDataProps['data'] = [
   {
+    _id: 'search-hit-1',
     _index: SearchIndex.TABLE,
     _source: {
       id: '1',
@@ -56,6 +65,7 @@ const mockData: SearchedDataProps['data'] = [
     },
   },
   {
+    _id: 'search-hit-2',
     _index: SearchIndex.TABLE,
     _source: {
       id: '2',
@@ -72,6 +82,7 @@ const mockData: SearchedDataProps['data'] = [
     },
   },
   {
+    _id: 'search-hit-3',
     _index: SearchIndex.TABLE,
     _source: {
       id: '3',
@@ -89,7 +100,6 @@ const mockData: SearchedDataProps['data'] = [
   },
 ];
 
-const mockPaginate = jest.fn();
 const mockHandleSummaryPanelDisplay = jest.fn();
 
 jest.mock('../Database/TableDataCardBody/TableDataCardBody', () => {
@@ -114,15 +124,19 @@ const MOCK_PROPS = {
   currentPage: 0,
   data: mockData,
   handleSummaryPanelDisplay: mockHandleSummaryPanelDisplay,
-  onPaginationChange: mockPaginate,
+  onPaginationChange: jest.fn(),
   selectedEntityId: 'name1',
   totalValue: 10,
 };
 
 describe('Test SearchedData Component', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('Component should render', () => {
     const { container } = render(<SearchedData {...MOCK_PROPS} />, {
-      wrapper: MemoryRouter,
+      wrapper: TestWrapper,
     });
 
     const searchedDataContainer = getByTestId(container, 'search-container');
@@ -132,7 +146,7 @@ describe('Test SearchedData Component', () => {
 
   it('Should display table card according to data provided in props', () => {
     const { container } = render(<SearchedData {...MOCK_PROPS} />, {
-      wrapper: MemoryRouter,
+      wrapper: TestWrapper,
     });
     const card1 = getByTestId(container, 'table-data-card_fullyQualifiedName1');
     const card2 = getByTestId(container, 'table-data-card_fullyQualifiedName2');
@@ -143,9 +157,47 @@ describe('Test SearchedData Component', () => {
     expect(card3).toBeInTheDocument();
   });
 
+  it('shows one result card per instance-code group', () => {
+    const instanceCodes = [
+      {
+        _id: 'instance-code-1',
+        _index: SearchIndex.INSTANCE_CODE,
+        _source: {
+          id: 'instance-code-1',
+          name: 'ACTIVE',
+          fullyQualifiedName: 'BANK_STATUS.ACTIVE',
+          entityType: EntityType.INSTANCE_CODE,
+          codeGroup: 'BANK_STATUS',
+        },
+      },
+      {
+        _id: 'instance-code-2',
+        _index: SearchIndex.INSTANCE_CODE,
+        _source: {
+          id: 'instance-code-2',
+          name: 'INACTIVE',
+          fullyQualifiedName: 'BANK_STATUS.INACTIVE',
+          entityType: EntityType.INSTANCE_CODE,
+          codeGroup: 'BANK_STATUS',
+        },
+      },
+    ] as unknown as SearchedDataProps['data'];
+
+    const { container } = render(
+      <SearchedData
+        {...MOCK_PROPS}
+        data={instanceCodes}
+        totalValue={instanceCodes.length}
+      />,
+      { wrapper: TestWrapper }
+    );
+
+    expect(container.querySelectorAll('[id^="search-card-"]')).toHaveLength(1);
+  });
+
   it('Should display table card with name and display name highlighted', () => {
     const { container } = render(<SearchedData {...MOCK_PROPS} />, {
-      wrapper: MemoryRouter,
+      wrapper: TestWrapper,
     });
 
     const card1 = getByTestId(container, 'table-data-card_fullyQualifiedName1');
@@ -168,7 +220,7 @@ describe('Test SearchedData Component', () => {
 
   it('Should display table card with description highlighted', () => {
     const { container } = render(<SearchedData {...MOCK_PROPS} />, {
-      wrapper: MemoryRouter,
+      wrapper: TestWrapper,
     });
 
     const card1 = getByTestId(container, 'table-data-card_fullyQualifiedName1');
@@ -193,7 +245,7 @@ describe('Test SearchedData Component', () => {
         <p>hello world</p>
       </SearchedData>,
       {
-        wrapper: MemoryRouter,
+        wrapper: TestWrapper,
       }
     );
 
@@ -204,7 +256,7 @@ describe('Test SearchedData Component', () => {
     const { container } = render(
       <SearchedData {...MOCK_PROPS} data={[]} totalValue={0} />,
       {
-        wrapper: MemoryRouter,
+        wrapper: TestWrapper,
       }
     );
 
@@ -213,7 +265,7 @@ describe('Test SearchedData Component', () => {
 
   it('Component should render highlights', () => {
     const { container } = render(<SearchedData {...MOCK_PROPS} />, {
-      wrapper: MemoryRouter,
+      wrapper: TestWrapper,
     });
 
     const searchedDataContainer = getByTestId(container, 'search-container');
@@ -222,5 +274,50 @@ describe('Test SearchedData Component', () => {
     expect(getByTestId(container, 'matches-stats')).toHaveTextContent(
       'label.matches:1 label.in-lowercase Name,1 label.in-lowercase Display Name'
     );
+  });
+
+  it('Should not show result count when showResultCount is false', () => {
+    const { container } = render(
+      <SearchedData {...MOCK_PROPS} isFilterSelected showResultCount={false} />,
+      { wrapper: TestWrapper }
+    );
+
+    expect(
+      queryByTestId(container, 'search-results-count')
+    ).not.toBeInTheDocument();
+  });
+
+  it('Should show result count when showResultCount is true and isFilterSelected is true', () => {
+    const { container } = render(
+      <SearchedData
+        {...MOCK_PROPS}
+        isFilterSelected
+        showResultCount
+        totalValue={42}
+      />,
+      { wrapper: TestWrapper }
+    );
+
+    const countEl = getByTestId(container, 'search-results-count');
+
+    expect(countEl).toBeInTheDocument();
+    expect(countEl).toHaveTextContent('42 results');
+  });
+
+  it('Should show "About X results" when totalValue equals MAX_RESULT_HITS', () => {
+    const { container } = render(
+      <SearchedData
+        {...MOCK_PROPS}
+        isFilterSelected
+        showResultCount
+        totalValue={MAX_RESULT_HITS}
+      />,
+      { wrapper: TestWrapper }
+    );
+
+    const countEl = getByTestId(container, 'search-results-count');
+
+    expect(countEl).toBeInTheDocument();
+    expect(countEl).toHaveTextContent(`${MAX_RESULT_HITS} results`);
   });
 });

@@ -12,9 +12,11 @@
  */
 import { SearchIndex } from '../enums/search.enum';
 import { ServiceCategory } from '../enums/service.enum';
+import { DatabaseServiceType } from '../generated/entity/services/databaseService';
 import {
   getActiveFieldNameForAppDocs,
   getSearchIndexFromService,
+  shouldTestConnection,
 } from './ServiceUtils';
 
 describe('getSearchIndexFromService', () => {
@@ -44,6 +46,10 @@ describe('getSearchIndexFromService', () => {
 });
 
 describe('Service Utils', () => {
+  it('does not offer an unsupported connection test for Sybase', () => {
+    expect(shouldTestConnection(DatabaseServiceType.Sybase)).toBe(false);
+  });
+
   describe('getActiveFieldNameForAppDocs', () => {
     it('should handle various cases correctly', () => {
       expect(getActiveFieldNameForAppDocs()).toBeUndefined();

@@ -274,6 +274,8 @@ export type ExploreSearchSource =
   | APICollectionSearchSource
   | APIEndpointSearchSource
   | MetricSearchSource
+  | InstanceCodeSearchSource
+  | QueryReportSearchSource
   | TableColumnSearchSource;
 
 export type SearchIndexSearchSourceMapping = {

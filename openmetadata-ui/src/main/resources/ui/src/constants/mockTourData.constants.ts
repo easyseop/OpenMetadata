@@ -1840,7 +1840,7 @@ export const mockDatasetData = {
     {
       name: 'bigquery',
       url: '/service/databaseServices/BigQuery/bigquery',
-      imgSrc: '/service-icon-query.png',
+      imgSrc: '/service-icon-query.webp',
     },
     {
       name: 'shopify',
@@ -3298,4 +3298,6 @@ export const MOCK_EXPLORE_PAGE_COUNT = {
   [SearchIndex.FILE]: 0,
   [SearchIndex.SPREADSHEET]: 0,
   [SearchIndex.WORKSHEET]: 0,
+  [SearchIndex.INSTANCE_CODE]: 0,
+  [SearchIndex.QUERY_REPORT]: 0,
 };

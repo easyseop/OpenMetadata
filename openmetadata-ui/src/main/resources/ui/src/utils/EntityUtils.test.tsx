@@ -17,19 +17,22 @@ import { EntityTabs, EntityType } from '../enums/entity.enum';
 import { ServiceCategory } from '../enums/service.enum';
 import { TestSuite } from '../generated/tests/testCase';
 import {
-  columnSorter,
   getBreadcrumbForTestSuite,
-  getColumnSorter,
-  getDomainDisplayName,
   getEntityBreadcrumbs,
   getEntityLinkFromType,
+} from './EntityBreadcrumbUtils';
+import { getDomainDisplayName } from './EntityNameUtils';
+import {
   hasCustomPropertiesTab,
   hasLineageTab,
   hasSchemaTab,
+} from './EntityPermissionUtils';
+import {
   highlightEntityNameAndDescription,
   highlightSearchArrayElement,
   highlightSearchText,
-} from './EntityUtils';
+} from './EntitySearchUtils';
+import { columnSorter, getColumnSorter } from './EntitySortUtils';
 import {
   entityWithoutNameAndDescHighlight,
   highlightedEntityDescription,
@@ -47,15 +50,15 @@ import {
 } from './mocks/EntityUtils.mock';
 import {
   getEntityDetailsPath,
+  getInstanceCodeGroupPath,
+  getQueryReportYearPath,
   getServiceDetailsPath,
   getSettingPath,
 } from './RouterUtils';
-import { getServiceRouteFromServiceType } from './ServiceUtils';
+import { getServiceRouteFromServiceType } from './ServicePureUtils';
 
 jest.mock('../constants/constants', () => ({
   DEFAULT_DOMAIN_VALUE: 'All Domains',
-  getEntityDetailsPath: jest.fn(),
-  getServiceDetailsPath: jest.fn(),
 }));
 
 jest.mock('./RouterUtils', () => ({
@@ -64,9 +67,11 @@ jest.mock('./RouterUtils', () => ({
   getSettingPath: jest.fn(),
   getServiceDetailsPath: jest.fn(),
   getEntityDetailsPath: jest.fn(),
+  getInstanceCodeGroupPath: jest.fn(),
+  getQueryReportYearPath: jest.fn(),
 }));
 
-jest.mock('./ServiceUtils', () => ({
+jest.mock('./ServicePureUtils', () => ({
   getServiceRouteFromServiceType: jest.fn(),
 }));
 
@@ -111,7 +116,7 @@ jest.mock('../components/common/QueryCount/QueryCount.component', () => ({
   default: jest.fn(),
 }));
 
-jest.mock('./StringsUtils', () => ({
+jest.mock('./StringUtils', () => ({
   bytesToSize: jest.fn(),
   getEncodedFqn: jest.fn(),
   stringToHTML: jest.fn().mockImplementation((value) => value),
@@ -127,9 +132,12 @@ jest.mock('./TagsUtils', () => ({
   getTableTags: jest.fn(),
 }));
 
-jest.mock('./CommonUtils', () => ({
+jest.mock('./FqnUtils', () => ({
   getPartialNameFromTableFQN: jest.fn().mockImplementation((value) => value),
   getTableFQNFromColumnFQN: jest.fn().mockImplementation((value) => value),
+}));
+
+jest.mock('./NumberUtils', () => ({
   formatNumberWithComma: jest.fn().mockImplementation((value) => value),
 }));
 jest.mock('./DataInsightUtils', () => ({
@@ -179,6 +187,38 @@ describe('EntityUtils unit tests', () => {
         EntityTabs.PROFILER
       );
     });
+
+    it('uses the code group for an InstanceCode link', () => {
+      (getInstanceCodeGroupPath as jest.Mock).mockReturnValue(
+        '/instance-codes/BANK_STATUS'
+      );
+
+      const result = getEntityLinkFromType(
+        'BANK_STATUS.ACTIVE',
+        EntityType.INSTANCE_CODE,
+        { codeGroup: 'BANK_STATUS' } as never
+      );
+
+      expect(getInstanceCodeGroupPath).toHaveBeenCalledWith('BANK_STATUS');
+      expect(result).toBe('/instance-codes/BANK_STATUS');
+    });
+
+    it('uses the entity details route for a QueryReport link', () => {
+      (getEntityDetailsPath as jest.Mock).mockReturnValue(
+        '/queryReport/P20261234'
+      );
+
+      const result = getEntityLinkFromType(
+        'P20261234',
+        EntityType.QUERY_REPORT
+      );
+
+      expect(getEntityDetailsPath).toHaveBeenCalledWith(
+        EntityType.QUERY_REPORT,
+        'P20261234'
+      );
+      expect(result).toBe('/queryReport/P20261234');
+    });
   });
 
   describe('getBreadcrumbForTestSuite', () => {
@@ -190,6 +230,10 @@ describe('EntityUtils unit tests', () => {
         type: 'testType',
       },
     };
+
+    beforeEach(() => {
+      (getEntityDetailsPath as jest.Mock).mockReset();
+    });
 
     it('should get breadcrumb if data is basic', () => {
       const result = getBreadcrumbForTestSuite({
@@ -470,6 +514,42 @@ describe('EntityUtils unit tests', () => {
         EntityType.DATABASE,
         'sample_data.ecommerce_db'
       );
+    });
+
+    it('returns an InstanceCode group breadcrumb', () => {
+      (getInstanceCodeGroupPath as jest.Mock).mockReturnValue(
+        '/instance-codes/BANK_STATUS'
+      );
+
+      const result = getEntityBreadcrumbs(
+        {
+          name: 'ACTIVE',
+          fullyQualifiedName: 'BANK_STATUS.ACTIVE',
+          codeGroup: 'BANK_STATUS',
+        } as never,
+        EntityType.INSTANCE_CODE
+      );
+
+      expect(result).toEqual([
+        { name: 'ACTIVE', url: '/instance-codes/BANK_STATUS' },
+      ]);
+    });
+
+    it('returns a QueryReport year breadcrumb', () => {
+      (getQueryReportYearPath as jest.Mock).mockReturnValue(
+        '/query-reports/2026'
+      );
+
+      const result = getEntityBreadcrumbs(
+        {
+          name: 'P20261234',
+          fullyQualifiedName: 'P20261234',
+        } as never,
+        EntityType.QUERY_REPORT
+      );
+
+      expect(getQueryReportYearPath).toHaveBeenCalledWith('2026');
+      expect(result).toEqual([{ name: '2026', url: '/query-reports/2026' }]);
     });
   });
 

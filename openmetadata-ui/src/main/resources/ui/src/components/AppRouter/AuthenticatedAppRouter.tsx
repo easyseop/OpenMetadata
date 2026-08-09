@@ -805,12 +805,22 @@ const AuthenticatedAppRouter: FunctionComponent = () => {
         path={ROUTES.DATA_PRODUCT}
       />
       <Route element={<MetricListPage />} path={ROUTES.METRICS} />
-      <Route element={<InstanceCodeListPage />} path={ROUTES.INSTANCE_CODES} />
+      <Route
+        element={
+          <InstanceCodeListPage pageTitle={t('label.instance-code-plural')} />
+        }
+        path={ROUTES.INSTANCE_CODES}
+      />
       <Route
         element={<InstanceCodeGroupDetailsPage />}
         path={ROUTES.INSTANCE_CODE_GROUP}
       />
-      <Route element={<QueryReportListPage />} path={ROUTES.QUERY_REPORTS} />
+      <Route
+        element={
+          <QueryReportListPage pageTitle={t('label.query-report-plural')} />
+        }
+        path={ROUTES.QUERY_REPORTS}
+      />
       <Route
         element={<QueryReportYearDetailsPage />}
         path={ROUTES.QUERY_REPORT_YEAR}

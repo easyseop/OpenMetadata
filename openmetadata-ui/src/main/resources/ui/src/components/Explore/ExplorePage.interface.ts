@@ -26,10 +26,12 @@ import { Database } from '../../generated/entity/data/database';
 import { DatabaseSchema } from '../../generated/entity/data/databaseSchema';
 import { Directory } from '../../generated/entity/data/directory';
 import { Glossary } from '../../generated/entity/data/glossary';
+import { InstanceCode } from '../../generated/entity/data/instanceCode';
 import { Metric } from '../../generated/entity/data/metric';
 import { Mlmodel } from '../../generated/entity/data/mlmodel';
 import { Pipeline } from '../../generated/entity/data/pipeline';
 import { Query } from '../../generated/entity/data/query';
+import { QueryReport } from '../../generated/entity/data/queryReport';
 import { SearchIndex as SearchIndexEntity } from '../../generated/entity/data/searchIndex';
 import { StoredProcedure } from '../../generated/entity/data/storedProcedure';
 import { Table } from '../../generated/entity/data/table';
@@ -80,7 +82,9 @@ export type ExploreSearchIndex =
   | SearchIndex.DIRECTORY
   | SearchIndex.FILE
   | SearchIndex.SPREADSHEET
-  | SearchIndex.WORKSHEET;
+  | SearchIndex.WORKSHEET
+  | SearchIndex.INSTANCE_CODE
+  | SearchIndex.QUERY_REPORT;
 
 export type SearchHitCounts = Record<ExploreSearchIndex, number>;
 
@@ -162,7 +166,9 @@ export type EntityUnion =
   | Kpi
   | AppMarketPlaceDefinition
   | IngestionPipeline
-  | Query;
+  | Query
+  | InstanceCode
+  | QueryReport;
 
 export type EntityWithServices =
   | Topic

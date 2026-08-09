@@ -21,10 +21,8 @@ import tiberoConnection from '../jsons/connectionSchemas/connections/database/ti
 import mysqlConnection from '../jsons/connectionSchemas/connections/database/mysqlConnection.json';
 import postgresConnection from '../jsons/connectionSchemas/connections/database/postgresConnection.json';
 import snowflakeConnection from '../jsons/connectionSchemas/connections/database/snowflakeConnection.json';
-import {
-  ExtraDatabaseServiceDropdownOptions,
-  getDatabaseConfig,
-} from './DatabaseServiceUtils';
+import { getDatabaseConfig } from './DatabaseServicePureUtils';
+import { ExtraDatabaseServiceDropdownOptions } from './DatabaseServiceUtils';
 
 jest.mock(
   '../components/Entity/EntityExportModalProvider/EntityExportModalProvider.component',
